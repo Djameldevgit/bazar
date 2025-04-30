@@ -34,9 +34,8 @@ code {
   max-width: 1400px;
   width: 100%;
   min-height: 100vh;
-  margin-left: 5px;
-  margin-left: 5px;
-  overflow: auto;
+ 
+  overflow: hidden;
 }
 
 img {

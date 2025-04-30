@@ -616,7 +616,7 @@ const StatusModal = () => {
     )
 
     return (
-        <Form className='status_modal'  >
+        <div className='status_modal'>
             <Form onSubmit={handleSubmit}>
                 <div className="status_header">
                     <h5 className="m-0">Annonces Immobilière</h5>
@@ -1036,7 +1036,7 @@ const StatusModal = () => {
             </Form>
 
 
-        </Form >
+        </div >
     )
 }
 
