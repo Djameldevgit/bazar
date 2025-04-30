@@ -88,9 +88,7 @@ const Menu = () => {
                             <Avatar src={auth.user.avatar} size="medium-avatar" />
                         </span>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <div className='language'>
-                                <LanguageSelector />
-                            </div>
+                           
                             <div className="dropdown-item" onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
                                 Ajouter un annnoces
                             </div>   <Link className="dropdown-item" to='/cart'>cart</Link>
