@@ -34,7 +34,9 @@ code {
   max-width: 1400px;
   width: 100%;
   min-height: 100vh;
-  margin: auto;
+  margin-left: 5px;
+  margin-left: 5px;
+  overflow: auto;
 }
 
 img {
@@ -89,7 +91,7 @@ img {
 @import url("./usersadministration/dropdownsearchhome.css");
 @import url("./usersadministration/cardbosytitle.css");
 @import url("./usersadministration/cardbodycarousel.css");
-@import url("./usersadministration/cardfooterpost.css");
+@import url("./usersadministration/cardfooter.css");
 @import url("./usersadministration/filtocomponentes.css");
 @import url("./usersadministration/descripcionpost.css");
 @import url("./usersadministration/usericon.css");

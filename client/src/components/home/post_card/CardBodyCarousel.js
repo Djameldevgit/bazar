@@ -8,6 +8,7 @@ import AuthModalAddLikesCommentsSave from '../../AuthModalAddLikesCommentsSave';
 import CardFooterPost from './CardFooterPost';
 import ShareModal from '../../ShareModal';
 import { BASE_URL } from '../../../utils/config'
+import { addToCart } from '../../../redux/actions/cartAction' // Nueva acción
 
 const CardBodyCarousel = ({ post }) => {
     const history = useHistory();
@@ -19,7 +20,30 @@ const CardBodyCarousel = ({ post }) => {
     const [saveLoad, setSaveLoad] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [isShare, setIsShare] = useState(false);
+    const [inCart, setInCart] = useState(false)
+    const [cartLoad, setCartLoad] = useState(false)
+   
+    // Lógica del carrito (similar a saved)
+    useEffect(() => {
+        const cartItems = auth.user?.cart?.items || []
+        setInCart(cartItems.some(item => item.productId === post._id))
+    }, [auth.user?.cart, post._id])
 
+    const handleAddToCart = async () => {
+        if(cartLoad) return;
+        
+        setCartLoad(true)
+        await dispatch(addToCart({post, auth}))
+        setCartLoad(false)
+    }
+
+    const handleRemoveFromCart = async () => {
+        if(cartLoad) return;
+
+        setCartLoad(true)
+        await dispatch(removeFromCart({post, auth}))
+        setCartLoad(false)
+    }
     // Likes
     useEffect(() => {
         if (post.likes.find(like => like._id === auth.user?._id)) {
@@ -134,7 +158,12 @@ const CardBodyCarousel = ({ post }) => {
                             : <i className="far fa-bookmark card__action-icon" onClick={handleSavePost} />
                         }
                         <span className="card__action-count">{post.saves || 0}</span>
-                    </div>
+                        {inCart 
+                    ? <i className="fas fa-shopping-cart text-danger" onClick={handleRemoveFromCart} />
+                    : <i className="fas fa-cart-plus" onClick={handleAddToCart} />
+                }
+                        
+                        </div>
                 </div>
 
                 {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`}  />}

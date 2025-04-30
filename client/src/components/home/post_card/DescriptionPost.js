@@ -1,10 +1,17 @@
 
 import Description from './Description';
-
+ 
 const DescriptionPost = ({ post, readMore, setReadMore }) => {
 
     return (
+        <div>
+      
+       
         <div className="description-container">
+
+
+ 
+
             <div className="post-info">
                 <div className="info-item">
                     <i className="fas fa-car"></i>
@@ -152,7 +159,7 @@ const DescriptionPost = ({ post, readMore, setReadMore }) => {
 
 
 
-
+ </div>
             </div>
         </div>
     );

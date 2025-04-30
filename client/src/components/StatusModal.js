@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { imageShow, videoShow } from '../utils/mediaShow';
 import { GLOBALTYPES } from '../redux/actions/globalTypes';
 
-import { Form,  Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import modelosjson from "../json/modelos.json"
 import communesjson from "../json/communes.json"
 import { createPostAprove, updatePost } from '../redux/actions/postAproveAction';
@@ -23,16 +23,20 @@ import { ItemsVêtementsMode } from './ReactIcons';
 import { ItemsSantéBeauté } from './ReactIcons';
 import { ItemsMeublesMaison } from './ReactIcons';
 import { ItemsEmploi } from './ReactIcons';
-/*import { ItemsServices } from './ReactIcons';
+import { ItemsServices } from './ReactIcons';
 import { ItemsLoisirsDivertissements } from './ReactIcons';
 import { ItemsMatériauxÉquipement } from './ReactIcons';
+ import { ItemsPiècesdétachées  } from './ReactIcons';
 import { Itemssport } from './ReactIcons';
- */
+ 
 
 
 const StatusModal = () => {
     const { auth, theme, socket, status, } = useSelector((state) => state);
-
+    const changeTypeOptions = [
+        { value: "J'accepte l'échange", label: "J'accepte l'échange" },
+        { value: "Pas d'échanges", label: "Pas d'échanges" }
+    ];
     const priceUnitOptions = [
         { value: 'DA', label: 'DA' },
         { value: 'Millions', label: 'Millions' },
@@ -43,6 +47,7 @@ const StatusModal = () => {
         { value: 'Fixe', label: 'Fixe' },
         { value: 'Négociable', label: 'Négociable' }
     ];
+
     const dispatch = useDispatch()
 
     const initilastate = {
@@ -82,8 +87,43 @@ const StatusModal = () => {
     const [selectedMarca, setSelectedMarca] = useState("");
     const [selectedMarcaSmartphone, setSelectedMarcaSmartphone] = useState("");
 
+    const [stream, setStream] = useState(false)
+    const videoRef = useRef()
+    const refCanvas = useRef()
+    const [tracks, setTracks] = useState('')
 
-    const fileInputRef = useRef(null);
+    const handleStream = () => {
+        setStream(true)
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(mediaStream => {
+                    videoRef.current.srcObject = mediaStream
+                    videoRef.current.play()
+
+                    const track = mediaStream.getTracks()
+                    setTracks(track[0])
+                }).catch(err => console.log(err))
+        }
+    }
+
+    const handleCapture = () => {
+        const width = videoRef.current.clientWidth;
+        const height = videoRef.current.clientHeight;
+
+        refCanvas.current.setAttribute("width", width)
+        refCanvas.current.setAttribute("height", height)
+
+        const ctx = refCanvas.current.getContext('2d')
+        ctx.drawImage(videoRef.current, 0, 0, width, height)
+        let URL = refCanvas.current.toDataURL()
+        setImages([...images, { camera: URL }])
+    }
+
+    const handleStopStream = () => {
+        tracks.stop()
+        setStream(false)
+    }
+
 
     const handleWilayaChange = (event) => {
         const selectedWilaya = event.target.value;
@@ -249,7 +289,7 @@ const StatusModal = () => {
 
 
 
-    const handleFileChange = e => {
+    const handleChangeImages = e => {
         const files = [...e.target.files]
         let err = ""
         let newImages = []
@@ -361,7 +401,7 @@ const StatusModal = () => {
             </div>
 
             <div className="form-group">
-                <small className="text-primary">Selecciona el modelo</small>
+
                 <select
                     className="form-control"
                     name="modelos"
@@ -407,20 +447,49 @@ const StatusModal = () => {
     )
 
 
+    const wilayascommunes = () => (
+        <div>
+            <div className="form-group">
+                <small className="text-primary">Adresse du bien obligatoire</small>
+                <select
+                    className="form-control"
+                    name="wilaya"
+                    value={postData.wilaya}
+                    onChange={handleWilayaChange}
+                >
+                    <options value="">Sélectionnez une wilaya</options>    {wilayasOptions}
+                </select>
+            </div>
 
+            <div className="form-group">
+
+                <select
+                    className="form-control"
+                    name="commune"
+                    value={postData.commune}
+                    onChange={handleCommuneChange}
+                >
+                    <option value="">Sélectionnez le modèle</option>
+                    {communesOptions}
+                </select>
+            </div>
+        </div>
+
+
+    )
 
 
 
 
     const subcategoryy = () => (
 
-       
-            <div>
-                <h2>Choisissez une catégorie</h2>
-                <CategorySelect handleChangeInput={handleChangeInput} postData={postData} />
 
-            </div>
-       
+        <div className='mb-3'>
+
+            <CategorySelect handleChangeInput={handleChangeInput} postData={postData} />
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+
     )
 
     const itemsÉlectroménagerÉlectroniquee = () => (
@@ -485,26 +554,32 @@ const StatusModal = () => {
             <ItemsEmploi handleChangeInput={handleChangeInput} postData={postData} />
             <small className='text-danger'>Ce champ est requis</small>
         </div>
-    )
-    /*    
-       const itemsServices = () => (
+    ) 
+    
+    const itemsServices = () => (
            <div>
                <ItemsServices handleChangeInput={handleChangeInput} postData={postData} />
                <small className='text-danger'>Ce champ est requis</small>
            </div>
        )
+
        const itemsLoisirsDivertissements = () => (
-           <div>
-               <ItemsLoisirsDivertissements handleChangeInput={handleChangeInput} postData={postData} />
-               <small className='text-danger'>Ce champ est requis</small>
-           </div>
-       )
-       const itemsMatériauxÉquipement = () => (
+        <div>
+            <ItemsLoisirsDivertissements handleChangeInput={handleChangeInput} postData={postData} />
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
+
+ const itemsMatériauxÉquipement = () => (
            <div>
                <ItemsMatériauxÉquipement handleChangeInput={handleChangeInput} postData={postData} />
                <small className='text-danger'>Ce champ est requis</small>
            </div>
        )
+      
+      
+     
+      
        const itemssport = () => (
            <div>
                <Itemssport handleChangeInput={handleChangeInput} postData={postData} />
@@ -512,142 +587,17 @@ const StatusModal = () => {
            </div>
        )
        
-   */
-    const itemsServices = () => (
+ 
+       const itemsPiècesdétachées  = () => (
         <div>
-            <Select
-                style={{ display: "flex", alignItems: "flex-end" }}
-                onChange={handleChangeInput}
-                value={postData.title}
-                name="title"
-                className="form-control"
-                required
-            >
-                <option value="">Sélectionner une sub catégorie</option>
-                <option value="Construction & Travaux">Construction & Travaux</option>
-                <option value="Écoles & Formations">Écoles & Formations</option>
-                <option value="Industrie & Fabrication">Industrie & Fabrication</option>
-                <option value="Transport et Déménagement">Transport et Déménagement</option>
-                <option value="Décoration & Aménagement">Décoration & Aménagement</option>
-                <option value="Publicité & Communication">Publicité & Communication</option>
-                <option value="Nettoyage & Jardinage">Nettoyage & Jardinage</option>
-                <option value="Froid & Climatisation">Froid & Climatisation</option>
-                <option value="Traiteurs & Gâteaux">Traiteurs & Gâteaux</option>
-                <option value="Médecine & Santé">Médecine & Santé</option>
-                <option value="Réparation auto & Diagnostic">Réparation auto & Diagnostic</option>
-            </Select>
+            <ItemsPiècesdétachées  handleChangeInput={handleChangeInput} postData={postData} />
             <small className='text-danger'>Ce champ est requis</small>
         </div>
-    );
+    )
+ 
 
 
-    const itemsLoisirsDivertissements = () => (
-        <div>
-            <select
-                style={{ display: "flex", alignItems: "flex-end" }}
-                onChange={handleChangeInput}
-                value={postData.title}
-                name="title"
-                className="form-control"
-                required
-            >
-                <option value="">Sélectionner une sub catégorie</option>
-                <option value="Animalerie">Animalerie</option>
-                <option value="Consoles et Jeux Vidéos">Consoles et Jeux Vidéos</option>
-                <option value="Livres & Magazines">Livres & Magazines</option>
-                <option value="Instruments de Musique">Instruments de Musique</option>
-                <option value="Les Jeux de loisirs">Les Jeux de loisirs</option>
-                <option value="Jouets">Jouets</option>
-                <option value="Chasse & Pêche">Chasse & Pêche</option>
-                <option value="Jardinage">Jardinage</option>
-                <option value="Antiquités & Collections">Antiquités & Collections</option>
-                <option value="Barbecue & Grillades">Barbecue & Grillades</option>
-                <option value="Vapes & Chichas">Vapes & Chichas</option>
-            </select>
-            <small className='text-danger'>Ce champ est requis</small>
-        </div>
-    );
-
-
-    const itemsMatériauxÉquipement = () => (
-        <div>
-            <select
-                style={{ display: "flex", alignItems: "flex-end" }}
-                onChange={handleChangeInput}
-                value={postData.title}
-                name="title"
-                className="form-control"
-                required
-            >
-                <option value="">Sélectionner une sub catégorie</option>
-                <option value="Matériaux de construction">Matériaux de construction</option>
-                <option value="Outillage et quincaillerie">Outillage et quincaillerie</option>
-                <option value="Électricité et plomberie">Électricité et plomberie</option>
-                <option value="Peinture et décoration">Peinture et décoration</option>
-                <option value="Matériel professionnel">Matériel professionnel</option>
-                <option value="Matériel médical">Matériel médical</option>
-                <option value="Matériel de jardinage">Matériel de jardinage</option>
-                <option value="Matériel de cuisine">Matériel de cuisine</option>
-                <option value="Matériel de nettoyage">Matériel de nettoyage</option>
-                <option value="Matériel de sécurité">Matériel de sécurité</option>
-                <option value="Matériel de bureautique">Matériel de bureautique</option>
-            </select>
-            <small className='text-danger'>Ce champ est requis</small>
-        </div>
-    );
-
-
-    const itemsPiècesdétachées = () => (
-        <div>
-            <select
-                style={{ display: "flex", alignItems: "flex-end" }}
-                onChange={handleChangeInput}
-                value={postData.title}
-                name="title"
-                className="form-control"
-                required
-            >
-                <option value="">Sélectionner une sub catégorie</option>
-                <option value="Pièces Automobiles">Pièces Automobiles</option>
-                <option value="Pièces Véhicules">Pièces Véhicules</option>
-                <option value="Alarme et sécurité">Alarme et sécurité</option>
-                <option value="Lubrifiants">Lubrifiants</option>
-                <option value="Nettoyage & Entretien">Nettoyage & Entretien</option>
-                <option value="Pièces Moto">Pièces Moto</option>
-                <option value="Outils de diagnostics">Outils de diagnostics</option>
-                <option value="Pièces Bateaux">Pièces Bateaux</option>
-            </select>
-            <small className='text-danger'>Ce champ est requis</small>
-        </div>
-    );
-
-
-    const itemssport = () => (
-        <div>
-            <select
-                style={{ display: "flex", alignItems: "flex-end" }}
-                onChange={handleChangeInput}
-                value={postData.title}
-                name="title"
-                className="form-control"
-                required
-            >
-                <option value="">Sélectionner une sous-catégorie</option>
-                <option value="Football">Football</option>
-                <option value="Hand/Voley/Basket-Ball">Hand/Voley/Basket-Ball</option>
-                <option value="Sport de combat">Sport de combat</option>
-                <option value="Fitness - Musculation">Fitness - Musculation</option>
-                <option value="Natation">Natation</option>
-                <option value="Vélos et trottinettes">Vélos et trottinettes</option>
-                <option value="Sports de raquette">Sports de raquette</option>
-                <option value="Sport aquatiques">Sport aquatiques</option>
-                <option value="Équitation">Équitation</option>
-                <option value="Pétanque">Pétanque</option>
-                <option value="Autres">Autres</option>
-            </select>
-            <small className="text-danger">Ce champ est requis</small>
-        </div>
-    );
+  
 
     const title2 = () => (
         <div className='form-group'>
@@ -666,7 +616,7 @@ const StatusModal = () => {
     )
 
     return (
-        <div className='status_modal'  >
+        <Form className='status_modal'  >
             <Form onSubmit={handleSubmit}>
                 <div className="status_header">
                     <h5 className="m-0">Annonces Immobilière</h5>
@@ -896,37 +846,18 @@ const StatusModal = () => {
                         style={{ resize: 'vertical' }} // Opcional: permite redimensionar verticalmente
                     />
                 </Form.Group>
-                <div className="card-body form-group">
-                    <label className="text-primary">Prix</label>
-                    <div style={{ padding: '0 20px' }}>
-                        <Slider
-                            min={500}
-                            max={2000000}
-                            step={500}
-                            value={postData.price || 0} // Si no hay precio, el slider empieza en 0
-                            onChange={(value) => {
-                                setPostData(prevState => ({
-                                    ...prevState,
-                                    price: value // Solo actualizamos el valor de 'price'
-                                }));
-                            }}
-                            trackStyle={{ backgroundColor: '#44EB00', height: 10 }}
-                            handleStyle={{
-                                borderColor: '#00AF72',
-                                height: 20,
-                                width: 20,
-                                marginLeft: -10,
-                                marginTop: -5,
-                                backgroundColor: '#007bff',
-                            }}
-                            railStyle={{ backgroundColor: '#ccc', height: 10 }}
-                        />
-                    </div>
 
-                    <div style={{ marginTop: 10 }}>
-                        {postData.price}
-                    </div>
-                </div>
+                <Form.Group controlId="numberInput" className="mb-3">
+                    <Form.Label>Prix</Form.Label>
+                    <Form.Control
+                        type="number"
+                        name="price"
+                        value={postData.price}
+                        onChange={handleChangeInput}
+                        placeholder="Prix"
+                    />
+
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>Unité de prix</Form.Label>
@@ -964,73 +895,50 @@ const StatusModal = () => {
                 </Form.Group>
 
 
-                <div className="form-group">
+                <Form.Group className="mb-3">
+                    <Form.Label>Change</Form.Label>
 
                     <Select
-                        multiple={false}
                         name="change"
-                        value={postData.change}
-                        onChange={handleChangeInput}
+                        value={changeTypeOptions.find(opt => opt.value === postData.change)}
+                        onChange={(selected) => handleChangeInput({
+                            target: {
+                                name: "change",
+                                value: selected.value
+                            }
+                        })}
+                        options={changeTypeOptions}
+                        placeholder="Change"
+                        classNamePrefix="select"
+                    />
 
-                    >
-                        <option  >Change</option>
+                </Form.Group>
 
-                        <option value="J'accepte l'échange">J'accepte l'échange</option>
-                        <option value="Pas d'échanges">Pas d'échanges </option>
 
-                    </Select>
+
+
+
+
+                <div>
+                    {wilayascommunes()}
                 </div>
 
+               
 
-
-
-
-
-
-
-                <div className="form-group">
-                    <small className="text-primary">Adresse du bien obligatoire</small>
-                    <Select
-                        multiple={false}
-
-                        name="wilaya"
-                        value={postData.wilaya} // Usar postData.wilaya
-                        onChange={handleWilayaChange}
-                    >
-                        <options value="">Sélectionnez une wilaya</options>
-                        {wilayasOptions} {/* Opciones de wilayas */}
-                    </Select>
-                    <small className="text-danger">Ce champ est requis</small>
-
-
-
-                    <Select
-                        multiple={false}
-
-                        name="commune"
-                        value={postData.commune} // Usar postData.commune
-                        onChange={handleCommuneChange}
-                    >
-                        <option value="">Sélectionnez la commune</option>
-                        {communesOptions} {/* Opciones de communes */}
-                    </Select>
-                    <small className="text-danger">Ce champ est requis</small>
-
-
-                    <Form.Group controlId="quartierInput" className="mb-3">
+                    <Form.Group controlId="numberInput" className="mb-3">
                         <Form.Label>Quartier</Form.Label>
                         <Form.Control
                             type="text"
                             name="quartier"
                             value={postData.quartier}
                             onChange={handleChangeInput}
-                            placeholder="Ej: Manhattan"
-                            isInvalid={!postData.quartier}  // Validación opcional
+                            placeholder="Quartier"
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es requerido.
-                        </Form.Control.Feedback>
+
                     </Form.Group>
+
+
+
 
                     <Form.Group controlId="telefonoInput" className="mb-3">
                         <Form.Label>Téléphone</Form.Label>
@@ -1045,84 +953,90 @@ const StatusModal = () => {
 
 
                     <Form.Group controlId="emailInput" className="mb-3">
-                        <Form.Label>Adresse mail</Form.Label>
+                        <Form.Label>Email</Form.Label>
                         <Form.Control
                             type="email"
                             name="email"
                             value={postData.email}
                             onChange={handleChangeInput}
                             placeholder="Adresse mail"
-                            isInvalid={!postData.email} // Validación si está vacío
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Ce champ est requis
-                        </Form.Control.Feedback>
+
                     </Form.Group>
 
-                </div>
+               
+                <div className="status_body">
 
-                <div className="p-3">
-                    <div className="status_body">
-                        {/* Área para mostrar imágenes */}
-                        <div className="show_images">
-                            {images.map((img, index) => (
+                    <div className="show_images">
+                        {
+                            images.map((img, index) => (
                                 <div key={index} id="file_img">
-                                    {img.type === 'image' ? (
-                                        <img
-                                            src={img.preview}
-                                            alt="Preview"
-                                            style={{ maxHeight: '100px' }}
-                                        />
-                                    ) : (
-                                        <video
-                                            src={img.preview}
-                                            controls
-                                            style={{ maxHeight: '100px' }}
-                                        />
-                                    )}
-                                    <span onClick={() => deleteImage(index)}>
-                                        <FaTimes />
-                                    </span>
+                                    {
+                                        img.camera ? imageShow(img.camera, theme)
+                                            : img.url
+                                                ? <>
+                                                    {
+                                                        img.url.match(/video/i)
+                                                            ? videoShow(img.url, theme)
+                                                            : imageShow(img.url, theme)
+                                                    }
+                                                </>
+                                                : <>
+                                                    {
+                                                        img.type.match(/video/i)
+                                                            ? videoShow(URL.createObjectURL(img), theme)
+                                                            : imageShow(URL.createObjectURL(img), theme)
+                                                    }
+                                                </>
+                                    }
+                                    <span onClick={() => deleteImage(index)}>&times;</span>
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* Botón de subida */}
-                        <div className="input_images">
-                            <div className="file_upload">
-                                <FaImage className="mr-2" style={{ fontSize: '2rem', cursor: 'pointer' }} />
-                                <input
-                                    type="file"
-                                    id="file"
-                                    ref={fileInputRef}
-                                    onChange={handleFileChange}
-                                    multiple
-                                    accept="image/*"
-                                    style={{ display: 'none' }}
-                                />
-                                <button
-                                    onClick={() => fileInputRef.current.click()}
-                                    style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        color: 'inherit',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    Seleccionar imágenes
-                                </button>
-                            </div>
-                        </div>
+                            ))
+                        }
                     </div>
+
+                    {
+                        stream &&
+                        <div className="stream position-relative">
+                            <video autoPlay muted ref={videoRef} width="100%" height="100%"
+                                style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
+
+                            <span onClick={handleStopStream}>&times;</span>
+                            <canvas ref={refCanvas} style={{ display: 'none' }} />
+                        </div>
+                    }
+
+                    <div className="input_images">
+                        {
+                            stream
+                                ? <i className="fas fa-camera" onClick={handleCapture} />
+                                : <>
+                                    <i className="fas fa-camera" onClick={handleStream} />
+
+                                    <div className="file_upload">
+                                        <i className="fas fa-image" />
+                                        <input type="file" name="file" id="file"
+                                            multiple accept="image/*,video/*" onChange={handleChangeImages} />
+                                    </div>
+                                </>
+                        }
+
+
+
+                    </div>
+
+                    <div className="status_footer">
+                        <button className="btn btn-secondary w-100" type="submit">
+                            Post
+                        </button>
+                    </div>
+
                 </div>
 
-
-
-
-                <Button type="submit">Enviar</Button>
             </Form>
 
-        </div >
+
+        </Form >
     )
 }
 

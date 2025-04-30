@@ -23,8 +23,9 @@ import SocketClient from './SocketClient'
 
 import { getNotifies } from './redux/actions/notifyAction'
 import CallModal from './components/message/CallModal'
-import Homepostspendientes from './pages/homepostspendientes'
+ 
 import { getPostsPendientes } from './redux/actions/postAproveAction'
+import Postspendientes from './pages/postspendientes'
  
 function App() {
   const { auth, status, modal, call } = useSelector(state => state)
@@ -78,7 +79,6 @@ function App() {
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
          
-           
           <PrivateRouter exact path="/:page" component={PageRender} />
           <PrivateRouter exact path="/:page/:id" component={PageRender} />
           

@@ -1,157 +1,99 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Nav, NavDropdown } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/authAction';
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import Avatar from '../Avatar';
 import NotifyModal from '../NotifyModal';
- 
- 
+
 const Menu = () => {
-    const dispatch = useDispatch();
-    const { auth, theme, notify } = useSelector(state => state); // Obtén el estado de autenticación, tema y notificaciones
-    const history = useHistory(); // Para redireccionar al usuario
-    const { pathname } = useLocation(); // Para verificar la ruta actual
+  const dispatch = useDispatch();
+  const { auth, theme, notify } = useSelector(state => state);
 
-    const [filters, setFilters] = useState({ title: '' });
-  
-    // Definir las funciones antes de usarlas
-    const openSearchModal = () => {
-        setIsModalOpen(true);
-    };
+  // Links de navegación
+  const navLinks = [
+    { label: 'Home', icon: 'home', path: '/' },
+    { label: 'Search', icon: 'search', onClick: () => {} },
+    { label: 'Discover', icon: 'add', onClick: () => dispatch({ type: GLOBALTYPES.STATUS, payload: true }) },
+  ];
 
-    const handleDiscoverClick = () => {
-        if (auth.user) {
-            // Si el usuario está autenticado, ejecuta el dispatch
-            dispatch({ type: GLOBALTYPES.STATUS, payload: true });
-        } else {
-            // Si no está autenticado, muestra el modal
-            setShowAuthModal(true);
+  return (
+    <Nav className="ms-auto d-flex align-items-center gap-3"> {/* <-- ESTA CLASE ALINEA A LA DERECHA */}
+      {navLinks.map((link, idx) => (
+        <Nav.Item key={idx}>
+          <Link
+            to={link.path || '#'}
+            className="nav-link"
+            onClick={(e) => {
+              if (link.onClick) {
+                e.preventDefault();
+                link.onClick();
+              }
+            }}
+          >
+            <span className="material-icons">{link.icon}</span>
+          </Link>
+        </Nav.Item>
+      ))}
+
+      {/* Notificaciones */}
+      <NavDropdown
+        title={
+          <span className="material-icons position-relative" style={{ color: notify.data.length > 0 ? 'crimson' : '' }}>
+            favorite
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {notify.data.length}
+            </span>
+          </span>
         }
-    };
+        id="notify-dropdown"
+        align="end"
+      >
+        <NotifyModal />
+      </NavDropdown>
 
-    const navLinks = [
-        { label: 'Home', icon: 'home', path: '/' }, // Sin función onClick
-        { label: 'Search', icon: 'search', path: '#', onClick: openSearchModal }, // Función para abrir el modal de búsqueda
-        { label: 'Discover', icon: 'fas fa-plus', onClick: handleDiscoverClick } // Función para ejecutar el dispatch
-    ];
+      {/* Avatar del usuario o menú para no autenticado */}
+      {auth.user ? (
+        <NavDropdown
+          title={<Avatar src={auth.user.avatar} size="medium-avatar" />}
+          id="user-dropdown"
+          align="end"
+        >
+            <NavDropdown.Item as={Link} to="/postspendientes">posts pendientes</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/cart">Cart</NavDropdown.Item>
 
-    const isActive = (pn) => {
-        if (pn === pathname) return 'active';
-    };
+          <NavDropdown.Item onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
+            Añadir anuncio
+          </NavDropdown.Item>
+          <NavDropdown.Item as={Link} to={`/profile/${auth.user._id}`}>
+            Perfil
+          </NavDropdown.Item>
+          <NavDropdown.Item as={Link} to="/informacionaplicacion">
+            Info app
+          </NavDropdown.Item>
+          <NavDropdown.Item
+            onClick={() => dispatch({ type: GLOBALTYPES.THEME, payload: !theme })}
+          >
+            {theme ? 'Modo claro' : 'Modo oscuro'}
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item as={Link} to="/" onClick={() => dispatch(logout())}>
+            Desconexión
+          </NavDropdown.Item>
+        </NavDropdown>
+      ) : (
+        <NavDropdown title={<i className="fas fa-user"></i>} id="guest-dropdown" align="end">
+            <NavDropdown.Item as={Link} to="/cart">Cart</NavDropdown.Item>
+          <NavDropdown.Item as={Link} to="/informacionaplicacion">Info app</NavDropdown.Item>
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters({ ...filters, [name]: value });
-    };
-
-   
-
-    return (
-        <div className="menu">
-            <ul className="navbar-nav flex-row">
-                {navLinks.map((link, index) => (
-                    <li className={`nav-item px-2 ${isActive(link.path)}`} key={index}>
-                        <Link
-                            className="nav-link"
-                            to={link.path || '#'}
-                            onClick={(e) => {
-                                // Solo prevenir la navegación si hay una función onClick
-                                if (link.onClick) {
-                                    e.preventDefault();
-                                    link.onClick();
-                                }
-                            }}
-                        >
-                            {link.icon.startsWith('fa') ? (
-                                <i className={link.icon}></i>
-                            ) : (
-                                <span className="material-icons">{link.icon}</span>
-                            )}
-                        </Link>
-                    </li>
-                ))}
-
-               
-
-              
-
-                {/* Icono de notificaciones */}
-                <li className="nav-item dropdown" style={{ opacity: 1 }}>
-                    <span className="nav-link position-relative" id="navbarDropdown"
-                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span className="material-icons"
-                            style={{ color: notify.data.length > 0 ? 'crimson' : '' }}>
-                            favorite
-                        </span>
-                        <span className="notify_length">{notify.data.length}</span>
-                    </span>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdown"
-                        style={{ transform: 'translateX(75px)' }}>
-                        <NotifyModal />
-                    </div>
-                </li>
-
-       
-                {auth.user ? (
-                    <li className="nav-item dropdown" style={{ opacity: 1 }}>
-                        <span className="nav-link dropdown-toggle" id="navbarDropdown"
-                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <Avatar src={auth.user.avatar} size="medium-avatar" />
-                        </span>
-                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                          
-                            <div className="dropdown-item" onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
-                                Ajouter un annnoces
-                            </div>
-                            <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
-                            <Link className="dropdown-item" to='/message'>Chat </Link>
-                            <Link className="dropdown-item" to='/administration/roles'>Roles</Link>
-                            <Link className="dropdown-item" to='/homepostspendientes'>Posts pendientes</Link>
-                         
-                            {auth.user.role === "admin" && (
-                                <>
-
-                                    <Link className="dropdown-item" to='/administration/users/reportuser'>Reports user </Link>
-                                    <Link className="dropdown-item" to='/homepostspendientes'>Posts pendientes</Link>
-                                    <Link className="dropdown-item" to='/administration/roles'>Roles</Link>
-                                    <Link className="dropdown-item" to='/administration/usersaction'>Usuarios acción</Link>
-                                    <Link className="dropdown-item" to='/administration/usersedicion'>Edición de usuarios</Link>
-                                    <Link className="dropdown-item" to='/administration/listadeusuariosbloqueadoss'>Usuarios bloqueados</Link>
-                                </>
-                            )}
-
-                            {/* Enlace al perfil */}
-                            <Link className="dropdown-item" to={`/profile/${auth.user._id}`}>Profile</Link>
-
-                            {/* Cambiar tema */}
-                            <label htmlFor="theme" className="dropdown-item"
-                                onClick={() => dispatch({ type: GLOBALTYPES.THEME, payload: !theme })}>
-                                {theme ? 'Light mode' : 'Dark mode'}
-                            </label>
-
-                            {/* Logout */}
-                            <div className="dropdown-divider"></div>
-                            <Link className="dropdown-item" to="/" onClick={() => dispatch(logout())}>
-                                Desconexion
-                            </Link>
-                        </div>
-                    </li>
-                ) : (
-                    // Menú para usuarios no autenticados
-                    <div className="btn-group user-icon-container">
-                        <i className="fas fa-user user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                        <div className="dropdown-menu">
-                            <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
-                            <Link className="dropdown-item" to='/login'>Se connecter</Link>
-                            <div className="dropdown-divider"></div>
-                            <Link className="dropdown-item" to='/register'>S'inscrire</Link>
-                        </div>
-                    </div>
-                )}
-            </ul>
-        </div>
-    );
+          <NavDropdown.Item as={Link} to="/login">Iniciar sesión</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item as={Link} to="/register">Registrarse</NavDropdown.Item>
+        </NavDropdown>
+      )}
+    </Nav>
+  );
 };
 
 export default Menu;

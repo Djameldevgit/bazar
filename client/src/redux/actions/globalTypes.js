@@ -8,7 +8,11 @@ export const GLOBALTYPES = {
     ONLINE: 'ONLINE',
     OFFLINE: 'OFFLINE',
     CALL: 'CALL',
-    PEER: 'PEER'
+    PEER: 'PEER',
+    ADD_TO_CART: 'ADD_TO_CART',
+    REMOVE_FROM_CART: 'REMOVE_FROM_CART',
+    UPDATE_CART_ITEM: 'UPDATE_CART_ITEM',
+    LOADING_CART: 'LOADING_CART',
 }
 
 export const EditData = (data, id, post) => {

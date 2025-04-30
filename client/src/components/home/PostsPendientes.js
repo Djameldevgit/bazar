@@ -7,7 +7,7 @@ import { aprovarPostPendiente, POST_TYPES_APROVE } from '../../redux/actions/pos
 import { deletePost } from '../../redux/actions/postAction';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { Dropdown } from 'react-bootstrap';
 
 
 const PostsPendientes = () => {
@@ -41,14 +41,14 @@ const PostsPendientes = () => {
     const handleAprovePost = (post) => {
         if (window.confirm("¿Deseas aprobar este post?")) {
             dispatch(aprovarPostPendiente({ post, auth }));
-            history.push("/administracion/homepostspendientes");
+            history.push("/postspendientes");
         }
     };
 
     const handleDeletePost = (post) => {
         if (window.confirm("¿Estás seguro de que deseas eliminar este post?")) {
             dispatch(deletePost({ post, auth, socket }));
-            history.push("/administracion/homepostspendientes");
+            history.push("/postspendientes");
         }
     };
     const handleBlockUser = (user) => {
@@ -119,40 +119,17 @@ const PostsPendientes = () => {
 
 
 
-                                    <td className="dropdown-container">
-                                        <div className="dropdown">
-                                            <button
+                                    <Dropdown>
+  <Dropdown.Toggle variant="primary" size="sm">
+    Opciones
+  </Dropdown.Toggle>
 
-                                                className="btn btn-sm btn-primary dropdown-toggle"
-                                                type="button"
-                                                data-bs-toggle="dropdown"
-                                                data-bs-display="static"
-                                                aria-expanded="false"
-
-
-                                            >
-                                                Opciones
-                                            </button>
-                                            <ul className="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <button className="dropdown-item text-success" onClick={() => handleAprovePost(post)}>
-                                                        <i className="material-icons">check_circle</i> Aprobar
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button className="dropdown-item text-danger" onClick={() => handleDeletePost(post)}>
-                                                        <i className="material-icons">delete_outline</i> Eliminar
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button className="dropdown-item text-warning" onClick={() => handleBlockUser(post.user)}>
-                                                        <i className="material-icons">block</i> Bloquear Usuario
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-
+  <Dropdown.Menu>
+    <Dropdown.Item onClick={() => handleAprovePost(post)}>Aprobar</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleDeletePost(post)}>Eliminar</Dropdown.Item>
+    <Dropdown.Item onClick={() => handleBlockUser(post.user)}>Bloquear Usuario</Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
                                 </tr>
 
 

@@ -1,7 +1,7 @@
 import Select from 'react-select';
 //import { MdDrone } from 'react-icons/md';
 import {  FaTruckPickup} from 'react-icons/fa';
-import { FaBus,FaMotorcycle,FaShuttleVan,FaTractor,FaShip,FaCaravan, FaBicycle, GiCrane,  FaCar, FaHome, FaLaptop, FaMobileAlt, FaTshirt, FaHeart, FaCouch, FaBriefcase, FaTools, FaGamepad, FaWrench, FaCog, FaBasketballBall } from 'react-icons/fa';
+import { FaBus,FaMotorcycle,FaShuttleVan,FaTractor,FaShip,FaCaravan, FaBicycle,    FaCar, FaHome, FaLaptop, FaMobileAlt, FaTshirt, FaHeart, FaCouch, FaBriefcase, FaTools, FaGamepad, FaWrench, FaCog, FaBasketballBall } from 'react-icons/fa';
 import { GiSewingNeedle } from 'react-icons/gi';
 import { FaTv, FaUtensils, FaBlender,   FaSpa, FaPumpSoap, FaTemperatureHigh, FaSnowflake, FaPuzzlePiece, FaCamera, FaHeadphones } from 'react-icons/fa';
 import { FaExchangeAlt, FaSearch,  FaSuitcaseRolling, FaHandshake, FaShoppingCart } from 'react-icons/fa';
@@ -14,11 +14,23 @@ import { FaMale, FaFemale, FaShoePrints, FaChild, FaBaby,  FaGlasses, FaGem, FaS
 import {   FaSprayCan, FaFirstAid  } from 'react-icons/fa';
 import {  FaPaintRoller,   FaChair, FaStream, FaBed,     FaPencilRuler, FaLightbulb } from 'react-icons/fa';
 import {   FaBookOpen,   FaBroom, FaLaptopCode, FaCalculator, FaSocks, FaUserTie, FaPenNib } from 'react-icons/fa';
-import { FaHardHat, FaUniversity,   FaTruckMoving, FaBullhorn, FaLeaf,   FaBirthdayCake, FaStethoscope    } from 'react-icons/fa';
-import { Form  } from 'react-bootstrap';
- 
-
-// Componente CategorySelect
+import { FaHardHat, FaUniversity,  FaTruckMoving,  
+  FaBullhorn, FaLeaf,   FaBirthdayCake, FaStethoscope, 
+      FaBook,   
+  FaSmile, FaMusic, 
+   FaCut,     FaCalendarAlt,
+  FaSatelliteDish,    FaGlobe, FaBalanceScale } from 'react-icons/fa';
+  import { FaPaw,   FaDice, 
+    FaFish,  FaHistory, FaFire, 
+    FaSmoking } from 'react-icons/fa';
+    import {  FaBolt, 
+       FaHospital,  
+      } from 'react-icons/fa';
+      import {  
+        FaOilCan,   FaDiagnoses } from 'react-icons/fa';
+        import { FaFutbol,    FaDumbbell, 
+          FaSwimmer,  FaTableTennis, FaWater, 
+          FaHorseHead, FaDotCircle, FaQuestion } from 'react-icons/fa';
 export function CategorySelect({ handleChangeInput, postData }) {
   const options = [
     { value: 'Électroménager & Électronique', label: (<><FaTv style={{ marginRight: '8px' }}/> Électroménager & Électronique</>) },
@@ -38,7 +50,7 @@ export function CategorySelect({ handleChangeInput, postData }) {
   ];
 
   return (
-    <Form>
+     
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -53,7 +65,7 @@ export function CategorySelect({ handleChangeInput, postData }) {
         value={postData ? options.find(opt => opt.value === postData.subCategory) : null}
         placeholder="Sélectionner une catégorie"
       />
-    </Form>
+  
   );
 }
 
@@ -445,18 +457,37 @@ export function ItemsEmploi({ handleChangeInput, postData }) {
 
 export function ItemsServices({ handleChangeInput, postData }) {
   const options = [
+    { value: 'Bureautique & Internet', label: (<><FaLaptop style={{ marginRight: '8px' }}/> Bureautique & Internet</>) },
+    { value: 'Comptabilité & Economie', label: (<><FaCalculator style={{ marginRight: '8px' }}/> Comptabilité & Economie</>) },
     { value: 'Construction & Travaux', label: (<><FaHardHat style={{ marginRight: '8px' }}/> Construction & Travaux</>) },
-  { value: 'Écoles & Formations', label: (<><FaUniversity style={{ marginRight: '8px' }}/> Écoles & Formations</>) },
-  { value: 'Industrie & Fabrication', label: (<><FaIndustry style={{ marginRight: '8px' }}/> Industrie & Fabrication</>) },
-  { value: 'Transport et Déménagement', label: (<><FaTruckMoving style={{ marginRight: '8px' }}/> Transport et Déménagement</>) },
-  { value: 'Décoration & Aménagement', label: (<><FaPaintRoller style={{ marginRight: '8px' }}/> Décoration & Aménagement</>) },
-  { value: 'Publicité & Communication', label: (<><FaBullhorn style={{ marginRight: '8px' }}/> Publicité & Communication</>) },
-  { value: 'Nettoyage & Jardinage', label: (<><FaLeaf style={{ marginRight: '8px' }}/> Nettoyage & Jardinage</>) },
-  { value: 'Froid & Climatisation', label: (<><FaSnowflake style={{ marginRight: '8px' }}/> Froid & Climatisation</>) },
-  { value: 'Traiteurs & Gâteaux', label: (<><FaBirthdayCake style={{ marginRight: '8px' }}/> Traiteurs & Gâteaux</>) },
-  { value: 'Médecine & Santé', label: (<><FaStethoscope style={{ marginRight: '8px' }}/> Médecine & Santé</>) },
-  { value: 'Réparation auto & Diagnostic', label: (<><FaTools style={{ marginRight: '8px' }}/> Réparation auto & Diagnostic</>) },
-
+    { value: 'Couture & Confection', label: (<><FaCut style={{ marginRight: '8px' }}/> Couture & Confection</>) },
+    { value: 'Décoration & Aménagement', label: (<><FaPaintRoller style={{ marginRight: '8px' }}/> Décoration & Aménagement</>) },
+    { value: 'Esthétique & Beauté', label: (<><FaSmile style={{ marginRight: '8px' }}/> Esthétique & Beauté</>) },
+    { value: 'Evènements & Divertissement', label: (<><FaCalendarAlt style={{ marginRight: '8px' }}/> Evènements & Divertissement</>) },
+    { value: 'Flashage & Installation des jeux', label: (<><FaGamepad style={{ marginRight: '8px' }}/> Flashage & Installation des jeux</>) },
+    { value: 'Flashage & Réparation des téléphones', label: (<><FaMobileAlt style={{ marginRight: '8px' }}/> Flashage & Réparation des téléphones</>) },
+    { value: 'Froid & Climatisation', label: (<><FaSnowflake style={{ marginRight: '8px' }}/> Froid & Climatisation</>) },
+    { value: 'Hôtellerie & Restauration & Salles', label: (<><FaUtensils style={{ marginRight: '8px' }}/> Hôtellerie & Restauration & Salles</>) },
+    { value: 'Image & Son', label: (<><FaMusic style={{ marginRight: '8px' }}/> Image & Son</>) },
+    { value: 'Impression & Edition', label: (<><FaPrint style={{ marginRight: '8px' }}/> Impression & Edition</>) },
+    { value: 'Industrie & Fabrication', label: (<><FaIndustry style={{ marginRight: '8px' }}/> Industrie & Fabrication</>) },
+    { value: 'Juridique', label: (<><FaBalanceScale style={{ marginRight: '8px' }}/> Juridique</>) },
+    { value: 'Location de véhicules', label: (<><FaCar style={{ marginRight: '8px' }}/> Location de véhicules</>) },
+    { value: 'Maintenance informatique', label: (<><FaDesktop style={{ marginRight: '8px' }}/> Maintenance informatique</>) },
+    { value: 'Menuiserie & Meubles', label: (<><FaChair style={{ marginRight: '8px' }}/> Menuiserie & Meubles</>) },
+    { value: 'Médecine & Santé', label: (<><FaStethoscope style={{ marginRight: '8px' }}/> Médecine & Santé</>) },
+    { value: 'Nettoyage & Jardinage', label: (<><FaLeaf style={{ marginRight: '8px' }}/> Nettoyage & Jardinage</>) },
+    { value: 'Paraboles & Démos', label: (<><FaSatelliteDish style={{ marginRight: '8px' }}/> Paraboles & Démos</>) },
+    { value: 'Projets & Études', label: (<><FaBook style={{ marginRight: '8px' }}/> Projets & Études</>) },
+    { value: 'Publicité & Communication', label: (<><FaBullhorn style={{ marginRight: '8px' }}/> Publicité & Communication</>) },
+    { value: 'Réparation auto & Diagnostic', label: (<><FaTools style={{ marginRight: '8px' }}/> Réparation auto & Diagnostic</>) },
+    { value: 'Réparation Electromenager', label: (<><FaPlug style={{ marginRight: '8px' }}/> Réparation Electromenager</>) },
+    { value: 'Réparation Eléctronique', label: (<><FaPlug style={{ marginRight: '8px' }}/> Réparation Eléctronique</>) },
+    { value: 'Sécurité & Alarme', label: (<><FaShieldAlt style={{ marginRight: '8px' }}/> Sécurité & Alarme</>) },
+    { value: 'Services à l\'étranger', label: (<><FaGlobe style={{ marginRight: '8px' }}/> Services à l'étranger</>) },
+    { value: 'Traiteurs & Gâteaux', label: (<><FaBirthdayCake style={{ marginRight: '8px' }}/> Traiteurs & Gâteaux</>) },
+    { value: 'Transport et Déménagement', label: (<><FaTruckMoving style={{ marginRight: '8px' }}/> Transport et Déménagement</>) },
+    { value: 'Écoles & Formations', label: (<><FaUniversity style={{ marginRight: '8px' }}/> Écoles & Formations</>) }
     
   ];
 
@@ -482,7 +513,17 @@ export function ItemsServices({ handleChangeInput, postData }) {
 
 export function ItemsLoisirsDivertissements({ handleChangeInput, postData }) {
   const options = [
-    { value: 'Voitures', label: (<><FaCar style={{ marginRight: '8px' }} /> Voitures</>) },
+    { value: 'Animalerie', label: (<><FaPaw style={{ marginRight: '8px' }} /> Animalerie</>) },
+    { value: 'Antiquités & Collections', label: (<><FaHistory style={{ marginRight: '8px' }} /> Antiquités & Collections</>) },
+    { value: 'Barbecue & Grillades', label: (<><FaFire style={{ marginRight: '8px' }} /> Barbecue & Grillades</>) },
+    { value: 'Chasse & Pêche', label: (<><FaFish style={{ marginRight: '8px' }} /> Chasse & Pêche</>) },
+    { value: 'Consoles et Jeux Vidéos', label: (<><FaGamepad style={{ marginRight: '8px' }} /> Consoles et Jeux Vidéos</>) },
+    { value: 'Instruments de Musique', label: (<><FaMusic style={{ marginRight: '8px' }} /> Instruments de Musique</>) },
+    { value: 'Jardinage', label: (<><FaLeaf style={{ marginRight: '8px' }} /> Jardinage</>) },
+    { value: 'Jouets', label: (<><FaChild style={{ marginRight: '8px' }} /> Jouets</>) },
+    { value: 'Les Jeux de loisirs', label: (<><FaDice style={{ marginRight: '8px' }} /> Les Jeux de loisirs</>) },
+    { value: 'Livres & Magazines', label: (<><FaBook style={{ marginRight: '8px' }} /> Livres & Magazines</>) },
+    { value: 'Vapes & Chichas', label: (<><FaSmoking style={{ marginRight: '8px' }} /> Vapes & Chichas</>) }
     
   ];
 
@@ -508,7 +549,51 @@ export function ItemsLoisirsDivertissements({ handleChangeInput, postData }) {
 
 export function ItemsMatériauxÉquipement({ handleChangeInput, postData }) {
   const options = [
-    { value: 'Voitures', label: (<><FaCar style={{ marginRight: '8px' }} /> Voitures</>) },
+    { value: 'Matériaux de construction', label: (<><FaBuilding style={{ marginRight: '8px' }} /> Matériaux de construction</>) },
+    { value: 'Outillage et quincaillerie', label: (<><FaTools style={{ marginRight: '8px' }} /> Outillage et quincaillerie</>) },
+    { value: 'Électricité et plomberie', label: (<><FaBolt style={{ marginRight: '8px' }} /> Électricité et plomberie</>) },
+    { value: 'Peinture et décoration', label: (<><FaPaintRoller style={{ marginRight: '8px' }} /> Peinture et décoration</>) },
+    { value: 'Matériel professionnel', label: (<><FaHardHat style={{ marginRight: '8px' }} /> Matériel professionnel</>) },
+    { value: 'Matériel médical', label: (<><FaHospital style={{ marginRight: '8px' }} /> Matériel médical</>) },
+    { value: 'Matériel de jardinage', label: (<><FaLeaf style={{ marginRight: '8px' }} /> Matériel de jardinage</>) },
+    { value: 'Matériel de cuisine', label: (<><FaUtensils style={{ marginRight: '8px' }} /> Matériel de cuisine</>) },
+    { value: 'Matériel de nettoyage', label: (<><FaBroom style={{ marginRight: '8px' }} /> Matériel de nettoyage</>) },
+    { value: 'Matériel de sécurité', label: (<><FaShieldAlt style={{ marginRight: '8px' }} /> Matériel de sécurité</>) },
+    { value: 'Matériel de bureautique', label: (<><FaLaptop style={{ marginRight: '8px' }} /> Matériel de bureautique</>) }
+    
+  ];
+
+  return (
+    <div style={{ width: '300px', margin: '20px auto' }}>
+      <Select
+        options={options}
+        onChange={(selectedOption) => handleChangeInput({
+          target: {
+            name: 'title',
+            value: selectedOption?.value || '',
+            type: 'text',
+            checked: undefined
+          }
+        })}
+        name="title"
+        value={postData ? options.find(opt => opt.value === postData.title) : null}
+        placeholder="Sélectionner une sub-catégorie"
+      />
+    </div>
+  );
+}
+
+
+export function ItemsPiècesdétachées({ handleChangeInput, postData }) {
+  const options = [
+    { value: 'Pièces Automobiles', label: (<><FaCar style={{ marginRight: '8px' }} /> Pièces Automobiles</>) },
+    { value: 'Pièces Véhicules', label: (<><FaCar style={{ marginRight: '8px' }} /> Pièces Véhicules</>) },
+    { value: 'Alarme et sécurité', label: (<><FaShieldAlt style={{ marginRight: '8px' }} /> Alarme et sécurité</>) },
+    { value: 'Lubrifiants', label: (<><FaOilCan style={{ marginRight: '8px' }} /> Lubrifiants</>) },
+    { value: 'Nettoyage & Entretien', label: (<><FaBroom style={{ marginRight: '8px' }} /> Nettoyage & Entretien</>) },
+    { value: 'Pièces Moto', label: (<><FaMotorcycle style={{ marginRight: '8px' }} /> Pièces Moto</>) },
+    { value: 'Outils de diagnostics', label: (<><FaDiagnoses style={{ marginRight: '8px' }} /> Outils de diagnostics</>) },
+    { value: 'Pièces Bateaux', label: (<><FaShip style={{ marginRight: '8px' }} /> Pièces Bateaux</>) }
     
   ];
 
@@ -534,7 +619,17 @@ export function ItemsMatériauxÉquipement({ handleChangeInput, postData }) {
 
 export function Itemssport({ handleChangeInput, postData }) {
   const options = [
-    { value: 'Voitures', label: (<><FaCar style={{ marginRight: '8px' }} /> Voitures</>) },
+    { value: 'Football', label: (<><FaFutbol style={{ marginRight: '8px' }} /> Football</>) },
+    { value: 'Hand/Voley/Basket-Ball', label: (<><FaBasketballBall style={{ marginRight: '8px' }} /> Hand/Voley/Basket-Ball</>) },
+    { value: 'Sport de combat', label: (<>  Sport de combat</>) },
+    { value: 'Fitness - Musculation', label: (<><FaDumbbell style={{ marginRight: '8px' }} /> Fitness - Musculation</>) },
+    { value: 'Natation', label: (<><FaSwimmer style={{ marginRight: '8px' }} /> Natation</>) },
+    { value: 'Vélos et trottinettes', label: (<><FaBicycle style={{ marginRight: '8px' }} /> Vélos et trottinettes</>) },
+    { value: 'Sports de raquette', label: (<><FaTableTennis style={{ marginRight: '8px' }} /> Sports de raquette</>) },
+    { value: 'Sport aquatiques', label: (<><FaWater style={{ marginRight: '8px' }} /> Sport aquatiques</>) },
+    { value: 'Équitation', label: (<><FaHorseHead style={{ marginRight: '8px' }} /> Équitation</>) },
+    { value: 'Pétanque', label: (<><FaDotCircle style={{ marginRight: '8px' }} /> Pétanque</>) },
+    { value: 'Autres', label: (<><FaQuestion style={{ marginRight: '8px' }} /> Autres</>) }
     
   ];
 

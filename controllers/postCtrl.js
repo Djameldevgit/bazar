@@ -23,7 +23,7 @@ const postCtrl = {
             const { postData, images } = req.body
             const { subCategory,  title, wilaya, commune,
                 description,price,unidaddeprecion,oferta,change,quartier, email, telefono,attributes } = postData || {};
-console.log(postData)
+ 
             if (images.length === 0)
                 return res.status(400).json({ msg: "Please add your photo." })
 

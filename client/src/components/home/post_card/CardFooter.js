@@ -6,17 +6,41 @@ import { useSelector, useDispatch } from 'react-redux'
 import { likePost, unLikePost, savePost, unSavePost } from '../../../redux/actions/postAction'
 import ShareModal from '../../ShareModal'
 import { BASE_URL } from '../../../utils/config'
-
+import { addToCart } from '../../../redux/actions/cartAction' // Nueva acción
 
 const CardFooter = ({post}) => {
     const [isLike, setIsLike] = useState(false)
     const [loadLike, setLoadLike] = useState(false)
-
+    const [inCart, setInCart] = useState(false)
+    const [cartLoad, setCartLoad] = useState(false)
     const [isShare, setIsShare] = useState(false)
 
     const { auth, theme, socket } = useSelector(state => state)
     const dispatch = useDispatch()
+    // Lógica del carrito (similar a saved)
+    useEffect(() => {
+        if(auth.user?.cart?.items?.find(item => item.productId === post._id)){
+            setInCart(true)
+        }else{
+            setInCart(false)
+        }
+    },[auth.user?.cart, post._id])
 
+    const handleAddToCart = async () => {
+        if(cartLoad) return;
+        
+        setCartLoad(true)
+        await dispatch(addToCart({post, auth}))
+        setCartLoad(false)
+    }
+
+    const handleRemoveFromCart = async () => {
+        if(cartLoad) return;
+
+        setCartLoad(true)
+        await dispatch(removeFromCart({post, auth}))
+        setCartLoad(false)
+    }
     const [saved, setSaved] = useState(false)
     const [saveLoad, setSaveLoad] = useState(false)
 
@@ -96,7 +120,12 @@ const CardFooter = ({post}) => {
                     :  <i className="far fa-bookmark"
                     onClick={handleSavePost} />
                 }
-               
+                
+                {inCart 
+                    ? <i className="fas fa-shopping-cart text-danger" onClick={handleRemoveFromCart} />
+                    : <i className="fas fa-cart-plus" onClick={handleAddToCart} />
+                }
+                
             </div>
 
             <div className="d-flex justify-content-between">
