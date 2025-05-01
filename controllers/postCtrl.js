@@ -21,15 +21,15 @@ const postCtrl = {
     crearPostPendiente: async (req, res) => {
         try {
             const { postData, images } = req.body
-            const { subCategory,  title, wilaya, commune,
-                description,price,unidaddeprecion,oferta,change,quartier, email, telefono,attributes } = postData || {};
- 
+            const { subCategory, title, wilaya, marca, modelo, marcas, modelos, commune,
+                description, price, unidaddeprecion, oferta, change, quartier, email, telefono, attributes } = postData || {};
+
             if (images.length === 0)
                 return res.status(400).json({ msg: "Please add your photo." })
 
             const newPost = new Posts({
-                subCategory,  title, wilaya, commune,
-                description,price,unidaddeprecion,oferta,change,quartier, email, telefono, attributes,
+                subCategory, title, wilaya, marca, modelo, marcas, modelos,commune,
+                description, price, unidaddeprecion, oferta, change, quartier, email, telefono, attributes,
                 images,
                 user: req.user._id,
             })
@@ -87,7 +87,7 @@ const postCtrl = {
     getPosts: async (req, res) => {
         try {
             // Extraer los parámetros de filtro desde req.query
-            const { subCategory,   title, wilaya, commune, startDate, endDate, minPrice, maxPrice } = req.query;
+            const { subCategory, title, wilaya, commune, startDate, endDate, minPrice, maxPrice } = req.query;
 
             // Definir la consulta básica para los posts aprobados
             const query = { estado: "aprobado" };
@@ -154,15 +154,15 @@ const postCtrl = {
     },
     updatePost: async (req, res) => {
         try {
-            const { subCategory,  title, wilaya, commune,
-                description,price,unidaddeprecion,oferta,change,quartier, email, telefono, attributes,
+            const { subCategory, title, wilaya, commune, marca, modelo, marcas, modelos,
+                description, price, unidaddeprecion, oferta, change, quartier, email, telefono, attributes,
                 images
 
             } = req.body
 
             const post = await Posts.findOneAndUpdate({ _id: req.params.id }, {
-                subCategory,  title, wilaya, commune,
-                description,price,unidaddeprecion,oferta,change,quartier, email, telefono, attributes,
+                subCategory, title, wilaya, marca, modelo, marcas, modelos, commune,
+                description, price, unidaddeprecion, oferta, change, quartier, email, telefono, attributes,
                 images
 
 
@@ -179,8 +179,8 @@ const postCtrl = {
                 msg: "Updated Post!",
                 newPost: {
                     ...post._doc,
-                    subCategory,  title, wilaya, commune,
-                description,price,unidaddeprecion,oferta,change,quartier, email, telefono, attributes, images
+                    subCategory, title, wilaya, marca, modelo, marcas, modelos, commune,
+                    description, price, unidaddeprecion, oferta, change, quartier, email, telefono, attributes, images
                 }
             })
         } catch (err) {

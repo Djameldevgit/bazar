@@ -117,8 +117,8 @@ export const updatePost = ({ postData, images,  auth, status }) => async (dispat
         && console.log("status.commune:", status.commune, "postData.commune:", postData.commune)
         && console.log("status.marca:", status.marca, "postData.marca:", postData.marca)
         && console.log("status.modelo:", status.modelo, "postData.modelo:", postData.modelo)
-        && console.log("status.marcas:", status.marcas, "postData.marca:", postData.marcas)
-        && console.log("status.modelos:", status.modelos, "postData.modelo:", postData.modelos)
+        && console.log("status.marcas:", status.marcas, "postData.marcas:", postData.marcas)
+        && console.log("status.modelos:", status.modelos, "postData.modelos:", postData.modelos)
 
         
         && status.email === postData.email

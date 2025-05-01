@@ -11,11 +11,11 @@ import { createPostAprove, updatePost } from '../redux/actions/postAproveAction'
 import modelossjson from "../json/telefonos.json"
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';  // Importar los estilos predeterminados
-import { CategorySelect } from './ReactIcons';
+import { CategorySelect, Subcategoryimmobilier } from './ReactIcons';
 import { FaImage, FaTimes } from 'react-icons/fa';
 import { ItemsElectromenagerElectronique } from './ReactIcons';
 import { ItemsAutomobileVehicules } from './ReactIcons';
-import { Subcategoryimmobilier } from './ReactIcons';
+ 
 import { ItemsImmobilier } from './ReactIcons';
 import { ItemsInformatique } from './ReactIcons';
 import { ItemsTéléphones } from './ReactIcons';
@@ -26,8 +26,9 @@ import { ItemsEmploi } from './ReactIcons';
 import { ItemsServices } from './ReactIcons';
 import { ItemsLoisirsDivertissements } from './ReactIcons';
 import { ItemsMatériauxÉquipement } from './ReactIcons';
- import { ItemsPiècesdétachées  } from './ReactIcons';
+import { ItemsPiècesdétachées } from './ReactIcons';
 import { Itemssport } from './ReactIcons';
+import { Annee, Color, Optionduvoiture } from './Attrubutes';
  
 
 
@@ -37,16 +38,49 @@ const StatusModal = () => {
         { value: "J'accepte l'échange", label: "J'accepte l'échange" },
         { value: "Pas d'échanges", label: "Pas d'échanges" }
     ];
+    const offerTypeOptions = [
+        { value: "J'accepte l'échange", label: "J'accepte l'échange" },
+        { value: "Pas d'échanges", label: "Pas d'échanges" },
+
+    ];
     const priceUnitOptions = [
         { value: 'DA', label: 'DA' },
         { value: 'Millions', label: 'Millions' },
-        { value: 'Milliard', label: 'Milliard' }
+        { value: 'Milliard', label: 'Milliard' },
+        { value: 'Euros', label: 'Euros' },
     ];
 
-    const offerTypeOptions = [
-        { value: 'Fixe', label: 'Fixe' },
-        { value: 'Négociable', label: 'Négociable' }
+    const grosdetailOptions = [
+        { value: 'Grossiste', label: 'Grossiste' },
+        { value: 'Détails', label: 'Détails' },
+        { value: 'En Détails seulement', label: 'En Détails seulement' },
+        { value: 'En Gros seulement', label: 'En Gros seulement' }
     ];
+
+    const locatioventevetemeness = [
+        { value: 'à vendre', label: 'à vendre' },
+        { value: 'location', label: 'location' },
+        { value: 'à vendre ou location', label: 'à vendre ou location' }
+    ];
+    const papiersOption = [
+        { value: "Carte Gris / Safia", label: "Carte Gris / Safia" },
+        { value: "Carte Jaune", label: "Carte Jaune" },
+        { value: "Licence / Délai", label: "Licence / Délai" }
+    ];
+    const subcategory3 = () => (
+        <div className="form-group">
+            <select name="subCategory2" value={postData.subCategory2} onChange={handleChangeInput} className="form-control" required>
+                <option value="">Catégorie...</option>
+                <option value="Vente">Vente</option>
+                <option value="Location">Location</option>
+                <option value="Location_Vacances">Location pour Vacances</option>
+                <option value="Echange">Echange</option>
+                <option value="Cherche_Location">Cherche Location</option>
+                <option value="Cherche_Achat">Cherche Achat</option>
+            </select>
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
 
     const dispatch = useDispatch()
 
@@ -56,8 +90,13 @@ const StatusModal = () => {
         subCategory: "",
 
         title: "",
-
-
+        marque: "",
+        model: "",
+        marca: "",
+        modelo: "",
+        marcas: "",
+        modelos: "",
+        subCategory2:"",
         description: "",
         price: "",
         unidaddeprecio: "",
@@ -71,12 +110,17 @@ const StatusModal = () => {
         attributes: {
             subCategory2: "",
             title2: "",
-            marque: "",
-            model: "",
-            marca: "",
-            modelo: "",
-            marcas: "",
-            modelos: "",
+
+            superficie: "",
+            etage: "",
+            piece: "",
+            anne: "",
+            color: "",
+            motor: "",
+            grosdetailOptions: "",
+            locatioventevetemenes: "",
+            optionduvoiture: "",
+            papiers: "",
         }
     }
 
@@ -369,11 +413,17 @@ const StatusModal = () => {
                     title2: status.attributes?.title2 || "",
                     marque: status.attributes?.marque || "",
                     model: status.attributes?.model || "",
-                    marca: status.attributes?.marque || "",
-                    modelo: status.attributes?.model || "",
-                    marcas: status.attributes?.marque || "",
-                    modelos: status.attributes?.model || "",
 
+                    superficie: status.attributes?.superficie || "",
+                    etage: status.attributes?.etage || "",
+                    piece: status.attributes?.piece || "",
+                    anne: status.attributes?.anne || "",
+                    color: status.attributes?.color || "",
+                    motor: status.attributes?.motor || "",
+                    grosdetailOptions: status.attributes?.grosdetailOptions || "",
+                    locatioventevetemenes: status.attributes?.locatioventevetemenes || "",
+                    optionduvoiture: status.attributes?.optionduvoiture || "",
+                    papiers: status.attributes?.papiers || "",
                 },
             });
             setImages(status.images || []);
@@ -480,17 +530,7 @@ const StatusModal = () => {
 
 
 
-
-    const subcategoryy = () => (
-
-
-        <div className='mb-3'>
-
-            <CategorySelect handleChangeInput={handleChangeInput} postData={postData} />
-            <small className='text-danger'>Ce champ est requis</small>
-        </div>
-
-    )
+ 
 
     const itemsÉlectroménagerÉlectroniquee = () => (
         <div>
@@ -506,15 +546,11 @@ const StatusModal = () => {
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
-    const Subcategoryimmobilierr = () => (
-        <div>
-            <Subcategoryimmobilier handleChangeInput={handleChangeInput} postData={postData} />
-            <small className='text-danger'>Ce champ est requis</small>
-        </div>
-    )
+    
     const ItemsImmobilierr = () => (
         <div>
-            <ItemsImmobilier handleChangeInput={handleChangeInput} postData={postData} />
+            <ItemsImmobilierr handleChangeInput={handleChangeInput} postData={postData} />
+
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
@@ -554,50 +590,50 @@ const StatusModal = () => {
             <ItemsEmploi handleChangeInput={handleChangeInput} postData={postData} />
             <small className='text-danger'>Ce champ est requis</small>
         </div>
-    ) 
-    
-    const itemsServices = () => (
-           <div>
-               <ItemsServices handleChangeInput={handleChangeInput} postData={postData} />
-               <small className='text-danger'>Ce champ est requis</small>
-           </div>
-       )
+    )
 
-       const itemsLoisirsDivertissements = () => (
+    const itemsServices = () => (
+        <div>
+            <ItemsServices handleChangeInput={handleChangeInput} postData={postData} />
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
+
+    const itemsLoisirsDivertissements = () => (
         <div>
             <ItemsLoisirsDivertissements handleChangeInput={handleChangeInput} postData={postData} />
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
 
- const itemsMatériauxÉquipement = () => (
-           <div>
-               <ItemsMatériauxÉquipement handleChangeInput={handleChangeInput} postData={postData} />
-               <small className='text-danger'>Ce champ est requis</small>
-           </div>
-       )
-      
-      
-     
-      
-       const itemssport = () => (
-           <div>
-               <Itemssport handleChangeInput={handleChangeInput} postData={postData} />
-               <small className='text-danger'>Ce champ est requis</small>
-           </div>
-       )
-       
- 
-       const itemsPiècesdétachées  = () => (
+    const itemsMatériauxÉquipement = () => (
         <div>
-            <ItemsPiècesdétachées  handleChangeInput={handleChangeInput} postData={postData} />
+            <ItemsMatériauxÉquipement handleChangeInput={handleChangeInput} postData={postData} />
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
- 
 
 
-  
+
+
+    const itemssport = () => (
+        <div>
+            <Itemssport handleChangeInput={handleChangeInput} postData={postData} />
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
+
+
+    const itemsPiècesdétachées = () => (
+        <div>
+            <ItemsPiècesdétachées handleChangeInput={handleChangeInput} postData={postData} />
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
+
+
+
+
 
     const title2 = () => (
         <div className='form-group'>
@@ -613,6 +649,95 @@ const StatusModal = () => {
         <div className='form-group'>
             <input type="text" name="model" value={postData.attributes.model} onChange={handleChangeInput} className="form-control" placeholder="Model" />
         </div>
+    )
+    const superficie = () => (
+        <div className='form-group'>
+            <input type="text" name="superficie" value={postData.attributes.superficie} onChange={handleChangeInput} className="form-control" placeholder="Model" />
+        </div>
+    )
+    const etage = () => (
+        <div className='form-group'>
+            <input type="text" name="etage" value={postData.attributes.etage} onChange={handleChangeInput} className="form-control" placeholder="Model" />
+        </div>
+    )
+    const piece = () => (
+        <div className='form-group'>
+            <input type="text" name="piece" value={postData.attributes.piece} onChange={handleChangeInput} className="form-control" placeholder="piece" />
+        </div>
+    )
+
+    const annee = () => (
+        <div className='form-group'>
+            <Annee handleChangeInput={handleChangeInput} postData={postData} />
+        </div>
+    )
+    const colorr = () => (
+        <Color handleChangeInput={handleChangeInput} postData={postData} />
+    )
+
+    const motorr = () => (
+        <div className='form-group'>
+            <input type="text" name="motor" value={postData.attributes.motor} onChange={handleChangeInput} className="form-control" placeholder="Moteur" />
+        </div>
+    )
+    const optionnduvoitures = () => (
+        <Optionduvoiture postData={postData} setPostData={setPostData} />
+    )
+    const locationventevetementsss = () => (
+        <Form.Group className="mb-3">
+            <Form.Label>Location / Vente</Form.Label>
+            <Select
+                name="locatioventevetemenes"
+                value={locatioventevetemeness.find(opt => opt.value === postData.attributes.locatioventevetemenes)}
+                onChange={(selected) => handleChangeInput({
+                    target: {
+                        name: "locatioventevetemenes",
+                        value: selected.value
+                    }
+                })}
+                options={locatioventevetemeness}
+                placeholder="Location / vente"
+                classNamePrefix="select"
+            />
+        </Form.Group>
+    )
+    const grosdetails = () => (
+        <Form.Group className="mb-3">
+            <Form.Label>Gros / Détails</Form.Label>
+            <Select
+                name="grosdetailOptions"
+                value={grosdetailOptions.find(opt => opt.value === postData.attributes.grosdetailOptions)}
+                onChange={(selected) => handleChangeInput({
+                    target: {
+                        name: "grosdetailOptions",
+                        value: selected.value
+                    }
+                })}
+                options={grosdetailOptions}
+                placeholder="Gros / Détails"
+                classNamePrefix="select"
+            />
+        </Form.Group>
+    )
+    const papierss = () => (
+
+        <Form.Group className="mb-3">
+            <Form.Label>Papiers</Form.Label>
+            <Select
+                name="papiers"
+                value={papiersOption.find(opt => opt.value === postData.attributes.papiersOption)}
+                onChange={(selected) => handleChangeInput({
+                    target: {
+                        name: "papiers",
+                        value: selected.value
+                    }
+                })}
+                options={papiersOption}
+                placeholder="Papiers"
+                classNamePrefix="select"
+            />
+        </Form.Group>
+
     )
 
     return (
@@ -636,17 +761,16 @@ const StatusModal = () => {
                         onChange={handleChangeInput}
                         placeholder="Category" />
                 </div>
-                <div  >
-                    {subcategoryy()}
-                </div>
-
+              
 
                 {postData.subCategory === "Électroménager & Électronique" && (
                     <div className='form-group'>
                         <div className="form-group">
                             {itemsÉlectroménagerÉlectroniquee()}
                         </div>
-
+                        <>
+                            {title2()}
+                        </>
                     </div>
                 )}
 
@@ -661,12 +785,21 @@ const StatusModal = () => {
                         {postData.title && (
                             <>
                                 {postData.title === "Voitures" ? (
-                                    marcasvoitures()
+                                    <>
+                                        {marcasvoitures()}
+                                        {annee()}
+                                        {motorr()}
+                                        {colorr()}
+                                        {optionnduvoitures()}
+                                        {papierss()}
+                                    </>
                                 ) : (
                                     <>
                                         {title2()}
                                         {marque()}
                                         {model()}
+
+
                                     </>
                                 )}
                             </>
@@ -675,21 +808,39 @@ const StatusModal = () => {
                     </div>
                 )}
 
-
-
                 {postData.subCategory === "Immobilier" && (
-                    <div className="form-group">
-                        {Subcategoryimmobilierr()}
+                    <div>
+                        <div className="form-group">
+                            {subcategory3()}
+                        </div>
+
+                        
+                           
+                                {postData.subCategory2 === "Vente" ? (
+                                    <>
+                                    {ItemsImmobilier()}
+                                    </>
+                                ) : (
+                                    <>
+                                     
+                                       
+                                        
+
+
+                                    </>
+                                )}
+                           
+                     
+
                     </div>
                 )}
 
-                {(postData.attributes.subCategory2 === "Vente" ||
-                    postData.attributes.subCategory2 === "Location" ||
-                    postData.attributes.subCategory2 === "Location_Vacances") && (
-                        <div className="form-group">
-                            {ItemsImmobilierr()}
-                        </div>
-                    )}
+
+
+
+
+
+
 
 
                 {postData.subCategory === "Informatique" && (
@@ -697,7 +848,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsInformatique()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
 
 
                     </div>
@@ -719,6 +873,7 @@ const StatusModal = () => {
                                         {title2()}
                                         {marque()}
                                         {model()}
+                                        {colorr()}
                                     </>
                                 )}
                             </>
@@ -728,10 +883,17 @@ const StatusModal = () => {
 
                 {postData.subCategory === "Vêtements & Mode" && (
                     <div className='form-group'>
-                        <div className="form-group">
-                            {itemsVêtementsMode()}
-                        </div>
 
+                        {itemsVêtementsMode()}
+
+                        <div className="form-group">
+                            <>
+                                {title2()}
+                                {locationventevetementsss()}
+                                {grosdetails()}
+                                {colorr()}
+                            </>
+                        </div>
 
 
                     </div>
@@ -742,7 +904,12 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsSantéBeauté()}
                         </div>
+                        <div className="form-group">
+                            <>
+                                {title2()}
 
+                            </>
+                        </div>
 
 
                     </div>
@@ -752,9 +919,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsMeublesMaison()}
                         </div>
-                        <div className="form-group"  >
+                        <>
+                            {title2()}
 
-                        </div>
+                        </>
 
                     </div>
                 )}
@@ -763,7 +931,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsEmploi()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
 
                     </div>
                 )}
@@ -773,7 +944,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsServices()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
                     </div>
                 )}
 
@@ -783,7 +957,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsLoisirsDivertissements()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
                     </div>
                 )}
                 {postData.subCategory === "Matériaux & Équipement" && (
@@ -791,7 +968,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsMatériauxÉquipement()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
                     </div>
                 )}
                 {postData.subCategory === "Pièces détachées" && (
@@ -799,7 +979,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemsPiècesdétachées()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
                     </div>
                 )}
 
@@ -808,7 +991,10 @@ const StatusModal = () => {
                         <div className="form-group">
                             {itemssport()}
                         </div>
+                        <>
+                            {title2()}
 
+                        </>
                     </div>
                 )}
 
@@ -923,48 +1109,48 @@ const StatusModal = () => {
                     {wilayascommunes()}
                 </div>
 
-               
-
-                    <Form.Group controlId="numberInput" className="mb-3">
-                        <Form.Label>Quartier</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="quartier"
-                            value={postData.quartier}
-                            onChange={handleChangeInput}
-                            placeholder="Quartier"
-                        />
-
-                    </Form.Group>
 
 
+                <Form.Group controlId="numberInput" className="mb-3">
+                    <Form.Label>Quartier</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="quartier"
+                        value={postData.quartier}
+                        onChange={handleChangeInput}
+                        placeholder="Quartier"
+                    />
+
+                </Form.Group>
 
 
-                    <Form.Group controlId="telefonoInput" className="mb-3">
-                        <Form.Label>Téléphone</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="telefono"
-                            value={postData.telefono}
-                            onChange={handleChangeInput}
-                            placeholder="Téléphone"
-                        />
-                    </Form.Group>
 
 
-                    <Form.Group controlId="emailInput" className="mb-3">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            name="email"
-                            value={postData.email}
-                            onChange={handleChangeInput}
-                            placeholder="Adresse mail"
-                        />
+                <Form.Group controlId="telefonoInput" className="mb-3">
+                    <Form.Label>Téléphone</Form.Label>
+                    <Form.Control
+                        type="number"
+                        name="telefono"
+                        value={postData.telefono}
+                        onChange={handleChangeInput}
+                        placeholder="Téléphone"
+                    />
+                </Form.Group>
 
-                    </Form.Group>
 
-               
+                <Form.Group controlId="emailInput" className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        value={postData.email}
+                        onChange={handleChangeInput}
+                        placeholder="Adresse mail"
+                    />
+
+                </Form.Group>
+
+
                 <div className="status_body">
 
                     <div className="show_images">

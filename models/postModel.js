@@ -46,9 +46,23 @@ const postSchema = new mongoose.Schema({
     type: String,
 
   },
+ marca: {
+    type: String,
 
-   
-  email: {
+  },
+  modelo: {
+    type: String,
+
+  },
+  wilaya: {
+    type: String,
+
+  },
+  marcas: {
+    type: String,
+
+  },
+  modelos: {
     type: String,
 
   },

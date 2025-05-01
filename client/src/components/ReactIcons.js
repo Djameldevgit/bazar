@@ -87,7 +87,7 @@ export function ItemsElectromenagerElectronique({ handleChangeInput, postData })
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -156,34 +156,15 @@ export function ItemsAutomobileVehicules({ handleChangeInput, postData }) {
 
 
 export function Subcategoryimmobilier({ handleChangeInput, postData }) {
-  const options = [
-    { value: 'Vente', label: (<><FaShoppingCart style={{ marginRight: '8px' }}/> Vente</>) },
-    { value: 'Location', label: (<><FaHome style={{ marginRight: '8px' }}/> Location</>) },
-    { value: 'Location_Vacances', label: (<><FaSuitcaseRolling style={{ marginRight: '8px' }}/> Location pour Vacances</>) },
-    { value: 'Echange', label: (<><FaExchangeAlt style={{ marginRight: '8px' }}/> Echange</>) },
-    { value: 'Cherche_Location', label: (<><FaSearch style={{ marginRight: '8px' }}/> Cherche Location</>) },
-    { value: 'Cherche_Achat', label: (<><FaHandshake style={{ marginRight: '8px' }}/> Cherche Achat</>) },
-  
-    
-  ];
+ 
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
-      <Select
-        options={options}
-        onChange={(selectedOption) => handleChangeInput({
-          target: {
-            name: 'title',
-            value: selectedOption?.value || '',
-            type: 'text',
-            checked: undefined
-          }
-        })}
-        name="title"
-        value={postData ? options.find(opt => opt.value === postData.title) : null}
-        placeholder="Sélectionner une sub-catégorie"
-      />
-    </div>
+    <div >
+ 
+        
+   </div>
+    
+  
   );
 }
 
@@ -208,7 +189,7 @@ export function ItemsImmobilier({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -245,7 +226,7 @@ export function ItemsInformatique({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -290,7 +271,7 @@ export function ItemsTéléphones ({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -327,7 +308,7 @@ export function ItemsVêtementsMode({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -358,7 +339,7 @@ export function ItemsSantéBeauté({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -396,7 +377,7 @@ export function ItemsMeublesMaison({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -436,7 +417,7 @@ export function ItemsEmploi({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -492,7 +473,7 @@ export function ItemsServices({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -528,7 +509,7 @@ export function ItemsLoisirsDivertissements({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -564,7 +545,7 @@ export function ItemsMatériauxÉquipement({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -598,7 +579,7 @@ export function ItemsPiècesdétachées({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
@@ -634,7 +615,7 @@ export function Itemssport({ handleChangeInput, postData }) {
   ];
 
   return (
-    <div style={{ width: '300px', margin: '20px auto' }}>
+    <div >
       <Select
         options={options}
         onChange={(selectedOption) => handleChangeInput({
