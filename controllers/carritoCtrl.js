@@ -4,42 +4,42 @@ const Users = require('../models/userModel')
 const carritoCtrl = {
     addToCart: async (req, res) => {
         try {
-            // Cambiar variable 'product' por 'post' para ser consistente
             const post = await Posts.findById(req.params.id);
             if (!post || !post.price) {
                 return res.status(404).json({ msg: "Publicación no encontrada o sin precio" });
             }
-            
+    
             const user = await Users.findById(req.user._id);
             const postIndex = user.cart.items.findIndex(item => 
-                item.productId.toString() === req.params.id
+                item.postId.toString() === req.params.id
             );
-            
+    
             if (postIndex >= 0) {
                 user.cart.items[postIndex].quantity += 1;
             } else {
                 user.cart.items.push({
-                    productId: post._id,  // Mantener productId por consistencia con el schema
+                    postId: post._id,
                     quantity: 1,
                     price: post.price
                 });
             }
-            
+    
             user.cart.totalPrice = user.cart.items.reduce(
                 (total, item) => total + (item.price * item.quantity), 0
             );
-            
+    
             await user.save();
-            
+    
             res.json({
                 msg: 'Publicación agregada al carrito',
                 cart: user.cart
             });
-            
+    
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
     },
+    
 
     removeFromCart: async (req, res) => {
         try {
@@ -48,8 +48,9 @@ const carritoCtrl = {
             
             // Filtrar para remover el producto
             user.cart.items = user.cart.items.filter(item => 
-                item.productId.toString() !== req.params.id
+                item.postId.toString() !== req.params.id
             )
+            
             
             if (user.cart.items.length === initialItemCount) {
                 return res.status(404).json({ msg: "Producto no encontrado en el carrito" })
@@ -74,7 +75,8 @@ const carritoCtrl = {
 
     getCart: async (req, res) => {
         try {
-            const user = await Users.findById(req.user._id).populate('cart.items.productId')
+            const user = await Users.findById(req.user._id).populate('cart.items.postId')
+
             
             res.json({
                 items: user.cart.items,
@@ -96,8 +98,9 @@ const carritoCtrl = {
             
             const user = await Users.findById(req.user._id)
             const item = user.cart.items.find(item => 
-                item.productId.toString() === req.params.id
+                item.postId.toString() === req.params.id
             )
+            
             
             if (!item) {
                 return res.status(404).json({ msg: "Producto no encontrado en el carrito" })

@@ -4,15 +4,15 @@ import Select from 'react-select';
 import { imageShow, videoShow } from '../utils/mediaShow';
 import { GLOBALTYPES } from '../redux/actions/globalTypes';
 
-import { Form, Button } from 'react-bootstrap';
+import { Form  } from 'react-bootstrap';
 import modelosjson from "../json/modelos.json"
 import communesjson from "../json/communes.json"
 import { createPostAprove, updatePost } from '../redux/actions/postAproveAction';
 import modelossjson from "../json/telefonos.json"
-import Slider from 'rc-slider';
+ 
 import 'rc-slider/assets/index.css';  // Importar los estilos predeterminados
-import { CategorySelect, Subcategoryimmobilier } from './ReactIcons';
-import { FaImage, FaTimes } from 'react-icons/fa';
+import { CategorySelect } from './ReactIcons';
+ 
 import { ItemsElectromenagerElectronique } from './ReactIcons';
 import { ItemsAutomobileVehicules } from './ReactIcons';
  
@@ -526,11 +526,13 @@ const StatusModal = () => {
         </div>
 
 
+    ) 
+    const  categoryselectt  = () => (
+        <div>
+            < CategorySelect  handleChangeInput={handleChangeInput} postData={postData} />
+
+        </div>
     )
-
-
-
- 
 
     const itemsÉlectroménagerÉlectroniquee = () => (
         <div>
@@ -539,6 +541,7 @@ const StatusModal = () => {
         </div>
     )
 
+ 
 
     const itemsAutomobileVehicules = () => (
         <div>
@@ -751,7 +754,15 @@ const StatusModal = () => {
                         &times;
                     </span>
                 </div>
+               
+                  
+                        <div className="form-group">
+                        {categoryselectt()}
+                        </div>
+                      
 
+ 
+             
                 <div className="form-group"   >
                     <input
                         className='form-control'

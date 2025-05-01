@@ -17,7 +17,7 @@ import call from './callReducer'
 import peer from './peerReducer'
  
 import homePostsAprove from './posAprovetReducer'
-import cartReducer from './cartReducer'
+import cart from './cartReducer'
  
  
 
@@ -37,6 +37,6 @@ export default combineReducers({
     message,
     online,
     call,
-    peer,homePostsAprove ,cartReducer
+    peer,homePostsAprove ,cart
 
 })

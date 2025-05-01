@@ -3,7 +3,9 @@ const auth = require("../middleware/auth")
 const carritoCtrl = require("../controllers/carritoCtrl")
 
 
-router.post('/cart/add/:id', auth, carritoCtrl.addToCart);
+// Idealmente
+router.put('/cart/add/:id', auth, carritoCtrl.addToCart);
+
 router.delete('/remove/:id', auth, carritoCtrl.removeFromCart);
 router.get('/cart', auth, carritoCtrl.getCart);
 router.put('/update/:id', auth, carritoCtrl.updateCartItemQuantity);

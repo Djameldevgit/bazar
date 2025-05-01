@@ -38,17 +38,18 @@ const userSchema = new mongoose.Schema({
     cart: {
         items: {
             type: [{
-                productId: { type: mongoose.Types.ObjectId, ref: 'Post', required: true },
+                postId: { type: mongoose.Types.ObjectId, ref: 'post', required: true },
                 quantity: { type: Number, default: 1, min: 1 },
                 price: { type: Number, required: true }
             }],
-            default: [] // Asegura que siempre haya un array
+            default: []
         },
         totalPrice: {
             type: Number,
             default: 0
         }
-    },
+    }
+    
     
 }, {
     timestamps: true
