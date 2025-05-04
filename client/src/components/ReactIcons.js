@@ -1,6 +1,8 @@
 import Select from 'react-select';
-//import { MdDrone } from 'react-icons/md';
+ 
 import {  FaTruckPickup} from 'react-icons/fa';
+ 
+
 import { FaBus,FaMotorcycle,FaShuttleVan,FaTractor,FaShip,FaCaravan, FaBicycle,    FaCar, FaHome, FaLaptop, FaMobileAlt, FaTshirt, FaHeart, FaCouch, FaBriefcase, FaTools, FaGamepad, FaWrench, FaCog, FaBasketballBall } from 'react-icons/fa';
 import { GiSewingNeedle } from 'react-icons/gi';
 import { FaTv, FaUtensils, FaBlender,   FaSpa, FaPumpSoap, FaTemperatureHigh, FaSnowflake, FaPuzzlePiece, FaCamera, FaHeadphones } from 'react-icons/fa';
@@ -31,6 +33,10 @@ import { FaHardHat, FaUniversity,  FaTruckMoving,
         import { FaFutbol,    FaDumbbell, 
           FaSwimmer,  FaTableTennis, FaWater, 
           FaHorseHead, FaDotCircle, FaQuestion } from 'react-icons/fa';
+          import {   FaUmbrellaBeach, FaKaaba, FaPassport,    FaEllipsisH } from 'react-icons/fa';
+
+
+
 export function CategorySelect({ handleChangeInput, postData }) {
   const options = [
     { value: 'Électroménager & Électronique', label: (<><FaTv style={{ marginRight: '8px' }}/> Électroménager & Électronique</>) },
@@ -47,6 +53,9 @@ export function CategorySelect({ handleChangeInput, postData }) {
     { value: 'Matériaux & Équipement', label: (<><FaWrench style={{ marginRight: '8px' }}/> Matériaux & Équipement</>) },
     { value: 'Pièces détachées', label: (<><FaCog style={{ marginRight: '8px' }}/> Pièces détachées</>) },
     { value: 'Sport', label: (<><FaBasketballBall style={{ marginRight: '8px' }}/> Sport</>) },
+    { value: 'Voyage', label: (<><FaSuitcaseRolling style={{ marginRight: '8px' }} /> Voyage</>) },
+    
+    
   ];
 
   return (
@@ -154,59 +163,114 @@ export function ItemsAutomobileVehicules({ handleChangeInput, postData }) {
   );
 }
 
-
-export function Subcategoryimmobilier({ handleChangeInput, postData }) {
  
-
-  return (
-    <div >
  
-        
-   </div>
-    
-  
-  );
-}
-
-
-export function ItemsImmobilier({ handleChangeInput, postData }) {
+ 
+export const SubcategorySelectWithIcons = ({ postData, handleChangeInput }) => {
   const options = [
-    { value: 'Appartement', label: (<><FaBuilding style={{ marginRight: '8px' }}/> Appartement</>) },
-  { value: 'Villa', label: (<><FaHome style={{ marginRight: '8px' }}/> Villa</>) },
-  { value: 'Local', label: (<><FaStore style={{ marginRight: '8px' }}/> Local</>) },
-  { value: 'Terrain', label: (<><FaTree style={{ marginRight: '8px' }}/> Terrain</>) },
-  { value: 'Carcasse', label: (<><FaWarehouse style={{ marginRight: '8px' }}/> Carcasse</>) },
-  { value: 'Niveau de Villa', label: (<><GiLevelEndFlag style={{ marginRight: '8px' }}/> Niveau de Villa</>) },
-  { value: 'Terrain Agricole', label: (<><FaPagelines style={{ marginRight: '8px' }}/> Terrain Agricole</>) },
-  { value: 'Immeuble', label: (<><FaCity style={{ marginRight: '8px' }}/> Immeuble</>) },
-  { value: 'Duplex', label: (<><FaHotel style={{ marginRight: '8px' }}/> Duplex</>) },
-  { value: 'Studio', label: (<><FaCouch style={{ marginRight: '8px' }}/> Studio</>) },
-  { value: 'Hangar', label: (<><FaWarehouse style={{ marginRight: '8px' }}/> Hangar</>) },
-  { value: 'Bungalow', label: (<><GiTreehouse style={{ marginRight: '8px' }}/> Bungalow</>) },
-  { value: 'Usine', label: (<><GiFactory style={{ marginRight: '8px' }}/> Usine</>) },
-
-    
+    { value: '', label: 'Catégorie...' },
+    { value: 'Vente', label: (<><FaSuitcase style={{ marginRight: '8px' }} /> Vente</>) },
+    { value: 'Location', label: (<><FaHome style={{ marginRight: '8px' }} /> Location</>) },
+    { value: 'Location_Vacances', label: (<><FaUmbrellaBeach style={{ marginRight: '8px' }} /> Location Vacances</>) },
+    { value: 'Echange', label: (<><FaExchangeAlt style={{ marginRight: '8px' }} /> Échange</>) },
+    { value: 'Cherche_Location', label: (<><FaSearch style={{ marginRight: '8px' }} /> Cherche Location</>) },
+    { value: 'Cherche_Achat', label: (<><FaSearch style={{ marginRight: '8px' }} /> Cherche Achat</>) }
   ];
 
   return (
-    <div >
+    <div className="form-group">
       <Select
+        name="subCategory3"
+        value={options.find(opt => opt.value === postData.subCategory3)}
+        onChange={(selected) =>
+          handleChangeInput({
+            target: {
+              name: 'subCategory3',
+              value: selected.value,
+            }
+          })
+        }
         options={options}
-        onChange={(selectedOption) => handleChangeInput({
-          target: {
-            name: 'title',
-            value: selectedOption?.value || '',
-            type: 'text',
-            checked: undefined
-          }
-        })}
+        placeholder="Catégorie..."
+        classNamePrefix="select"
+      />
+      {postData.subCategory2 === '' && (
+        <small className='text-danger'>Ce champ est requis</small>
+      )}
+    </div>
+  );
+};
+ 
+export function ItemsImmobilier({ handleChangeInput, postData }) {
+  const options = [
+    { value: 'Appartement', label: (<><FaBuilding style={{ marginRight: '8px' }} /> Appartement</>) },
+    { value: 'Villa', label: (<><FaHome style={{ marginRight: '8px' }} /> Villa</>) },
+    { value: 'Local', label: (<><FaStore style={{ marginRight: '8px' }} /> Local</>) },
+    { value: 'Terrain', label: (<><FaTree style={{ marginRight: '8px' }} /> Terrain</>) },
+    { value: 'Carcasse', label: (<><FaWarehouse style={{ marginRight: '8px' }} /> Carcasse</>) },
+    { value: 'Niveau de Villa', label: (<><GiLevelEndFlag style={{ marginRight: '8px' }} /> Niveau de Villa</>) },
+    { value: 'Terrain Agricole', label: (<><FaPagelines style={{ marginRight: '8px' }} /> Terrain Agricole</>) },
+    { value: 'Immeuble', label: (<><FaCity style={{ marginRight: '8px' }} /> Immeuble</>) },
+    { value: 'Duplex', label: (<><FaHotel style={{ marginRight: '8px' }} /> Duplex</>) },
+    { value: 'Studio', label: (<><FaCouch style={{ marginRight: '8px' }} /> Studio</>) },
+    { value: 'Hangar', label: (<><FaWarehouse style={{ marginRight: '8px' }} /> Hangar</>) },
+    { value: 'Bungalow', label: (<><GiTreehouse style={{ marginRight: '8px' }} /> Bungalow</>) },
+    { value: 'Usine', label: (<><GiFactory style={{ marginRight: '8px' }} /> Usine</>) }
+  ];
+
+  return (
+    <div className="form-group">
+      <Select
         name="title"
-        value={postData ? options.find(opt => opt.value === postData.title) : null}
-        placeholder="Sélectionner une sub-catégorie"
+        value={options.find(opt => opt.value === postData.title)}
+        onChange={(selected) =>
+          handleChangeInput({
+            target: {
+              name: 'title',
+              value: selected.value
+            }
+          })
+        }
+        options={options}
+        placeholder="Sélectionner un type de bien"
+        classNamePrefix="select"
       />
     </div>
   );
 }
+ 
+ 
+export function ItemsLocationVacance({ handleChangeInput, postData }) {
+  const options = [
+    { value: 'Appartement', label: (<><FaBuilding style={{ marginRight: '8px' }} /> Appartement</>) },
+    { value: 'Villa', label: (<><FaHome style={{ marginRight: '8px' }} /> Villa</>) },
+      { value: 'Niveau de Villa', label: (<><GiLevelEndFlag style={{ marginRight: '8px' }} /> Niveau de Villa</>) },
+     { value: 'Immeuble', label: (<><FaCity style={{ marginRight: '8px' }} /> Immeuble</>) },
+    { value: 'Duplex', label: (<><FaHotel style={{ marginRight: '8px' }} /> Duplex</>) },
+       { value: 'Bungalow', label: (<><GiTreehouse style={{ marginRight: '8px' }} /> Bungalow</>) },
+    ];
+
+  return (
+    <div className="form-group">
+      <Select
+        name="title"
+        value={options.find(opt => opt.value === postData.title)}
+        onChange={(selected) =>
+          handleChangeInput({
+            target: {
+              name: 'title',
+              value: selected.value
+            }
+          })
+        }
+        options={options}
+        placeholder="Sélectionner un type de bien"
+        classNamePrefix="select"
+      />
+    </div>
+  );
+}
+ 
 
 export function ItemsInformatique({ handleChangeInput, postData }) {
   const options = [
@@ -634,6 +698,37 @@ export function Itemssport({ handleChangeInput, postData }) {
   );
 }
 
+export function Voyage({ handleChangeInput, postData }) {
+  const options = [
+    { value: 'Voyage_Organise', label: (<><FaSuitcase style={{ marginRight: '8px' }} /> Voyage Organisé</>) },
+  { value: 'Location_Vacances', label: (<><FaUmbrellaBeach style={{ marginRight: '8px' }} /> Location Vacances</>) },
+  { value: 'hadj_Omra', label: (<><FaKaaba style={{ marginRight: '8px' }} /> Hadj & Omra</>) },
+  { value: 'Reservations_Visa', label: (<><FaPassport style={{ marginRight: '8px' }} /> Réservations & Visa</>) },
+  { value: 'Sejour', label: (<><FaHotel style={{ marginRight: '8px' }} /> Séjour</>) },
+  { value: 'Croisiere', label: (<><FaShip style={{ marginRight: '8px' }} /> Croisière</>) },
+  { value: 'Autre', label: (<><FaEllipsisH style={{ marginRight: '8px' }} /> Autre</>) }
+    
+  ];
+
+  return (
+    <div >
+      <Select
+        options={options}
+        onChange={(selectedOption) => handleChangeInput({
+          target: {
+            name: 'title',
+            value: selectedOption?.value || '',
+            type: 'text',
+            checked: undefined
+          }
+        })}
+        name="title"
+        value={postData ? options.find(opt => opt.value === postData.title) : null}
+        placeholder="Sélectionner une sub-catégorie"
+      />
+    </div>
+  );
+}
 
 
 

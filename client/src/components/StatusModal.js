@@ -4,35 +4,47 @@ import Select from 'react-select';
 import { imageShow, videoShow } from '../utils/mediaShow';
 import { GLOBALTYPES } from '../redux/actions/globalTypes';
 
-import { Form  } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import modelosjson from "../json/modelos.json"
 import communesjson from "../json/communes.json"
 import { createPostAprove, updatePost } from '../redux/actions/postAproveAction';
 import modelossjson from "../json/telefonos.json"
- 
-import 'rc-slider/assets/index.css';  // Importar los estilos predeterminados
-import { CategorySelect } from './ReactIcons';
- 
-import { ItemsElectromenagerElectronique } from './ReactIcons';
-import { ItemsAutomobileVehicules } from './ReactIcons';
- 
-import { ItemsImmobilier } from './ReactIcons';
-import { ItemsInformatique } from './ReactIcons';
-import { ItemsTéléphones } from './ReactIcons';
-import { ItemsVêtementsMode } from './ReactIcons';
-import { ItemsSantéBeauté } from './ReactIcons';
-import { ItemsMeublesMaison } from './ReactIcons';
-import { ItemsEmploi } from './ReactIcons';
-import { ItemsServices } from './ReactIcons';
-import { ItemsLoisirsDivertissements } from './ReactIcons';
-import { ItemsMatériauxÉquipement } from './ReactIcons';
-import { ItemsPiècesdétachées } from './ReactIcons';
-import { Itemssport } from './ReactIcons';
-import { Annee, Color, Optionduvoiture } from './Attrubutes';
- 
+
+import { Title2Input, MarqueInput, ModelInput } from './automobile';
+import {
+    CategorySelect, SubcategorySelectWithIcons, ItemsElectromenagerElectronique, ItemsAutomobileVehicules, ItemsInformatique,
+    ItemsTéléphones, ItemsVêtementsMode, ItemsSantéBeauté, ItemsMeublesMaison, ItemsEmploi, ItemsServices,
+    ItemsLoisirsDivertissements, ItemsMatériauxÉquipement, ItemsPiècesdétachées, Itemssport, Voyage, ItemsImmobilier, ItemsLocationVacance
+} from './ReactIcons';
+
+import {
+    SuperficieInput,
+    EtageInput,
+    PieceInput
+} from './immobilier'; // Cambia por la ruta real
+
+
+import getInitialState, { Annee, Color, Optionduvoiture, Opcionlagagehotel, Opciontipodehabitaciones, Optionservicehotel } from './Attrubutes';
+import { TransporteUtilizado, DestinacionHadjOmra, ViajesNacionales, ViajesInterNacionales, } from './Voyagee';
+
+
+import { Programme } from './Voyagee'; // Ajusta el path si es necesario
+import {
+    Description, PrixInput,
+    UnitePrixSelect,
+    TypeOffreSelect,
+    ChangeSelect, QuartierInput,
+    TelephoneInput,
+    EmailInput,
+
+    MarcaVoiture,
+    WilayaCommune,
+    MarcaTelefono
+} from './StatusModalComponents';
 
 
 const StatusModal = () => {
+    MarcaTelefono
     const { auth, theme, socket, status, } = useSelector((state) => state);
     const changeTypeOptions = [
         { value: "J'accepte l'échange", label: "J'accepte l'échange" },
@@ -67,65 +79,23 @@ const StatusModal = () => {
         { value: "Carte Jaune", label: "Carte Jaune" },
         { value: "Licence / Délai", label: "Licence / Délai" }
     ];
-    const subcategory3 = () => (
-        <div className="form-group">
-            <select name="subCategory2" value={postData.subCategory2} onChange={handleChangeInput} className="form-control" required>
-                <option value="">Catégorie...</option>
-                <option value="Vente">Vente</option>
-                <option value="Location">Location</option>
-                <option value="Location_Vacances">Location pour Vacances</option>
-                <option value="Echange">Echange</option>
-                <option value="Cherche_Location">Cherche Location</option>
-                <option value="Cherche_Achat">Cherche Achat</option>
-            </select>
-            <small className='text-danger'>Ce champ est requis</small>
-        </div>
+
+
+
+
+    const SubcategorySelectWithIconss = () => (
+        <SubcategorySelectWithIcons
+            postData={postData}
+            handleChangeInput={handleChangeInput}
+        />
+
     )
 
     const dispatch = useDispatch()
 
-    const initilastate = {
-
-        category: "",
-        subCategory: "",
-
-        title: "",
-        marque: "",
-        model: "",
-        marca: "",
-        modelo: "",
-        marcas: "",
-        modelos: "",
-        subCategory2:"",
-        description: "",
-        price: "",
-        unidaddeprecio: "",
-        oferta: "",
-        change: "",
-        wilaya: "",
-        commune: "",
-        quartier: "",
-        email: "",
-
-        attributes: {
-            subCategory2: "",
-            title2: "",
-
-            superficie: "",
-            etage: "",
-            piece: "",
-            anne: "",
-            color: "",
-            motor: "",
-            grosdetailOptions: "",
-            locatioventevetemenes: "",
-            optionduvoiture: "",
-            papiers: "",
-        }
-    }
+    const [postData, setPostData] = useState(getInitialState());
 
 
-    const [postData, setPostData] = useState(initilastate)
     const [images, setImages] = useState([])
     const [selectedWilaya, setSelectedWilaya] = useState("");
     const [selectedMarca, setSelectedMarca] = useState("");
@@ -389,7 +359,7 @@ const StatusModal = () => {
     };
 
     useEffect(() => {
-        console.log("status en useEffect:", status);
+
         if (status?.onEdit) {
             setPostData({
                 category: status.category || "",
@@ -408,6 +378,8 @@ const StatusModal = () => {
                 email: status.email || "",
                 telefono: status.telefono || "",
 
+                destinacionhadj: status.destinacionhadj || "",
+
                 attributes: {
                     subCategory2: status.attributes?.subCategory2 || "",
                     title2: status.attributes?.title2 || "",
@@ -424,6 +396,45 @@ const StatusModal = () => {
                     locatioventevetemenes: status.attributes?.locatioventevetemenes || "",
                     optionduvoiture: status.attributes?.optionduvoiture || "",
                     papiers: status.attributes?.papiers || "",
+
+                    specifications: status.specifications || [],
+
+                    numerodeapartamientos: status.numerodeapartamientos || "",
+
+                    promoteurimmobilier: status.promoteurimmobilier || false,
+
+
+                    nombre: status.nombre || "",
+
+                    nombreChambres: status.nombreChambres || "",
+                    tipodehabitacioness: status.tipodehabitacioness || "",
+                    estrellas: status.estrellas || "",
+                    reservationEnLigne: status.reservationEnLigne || "",
+                    serviciosdehotel: status.serviciosdehotel || [],
+                    langage: status.langage || [],
+                    tipodehabutaciones: status.tipodehabutaciones || [],
+
+                    nightlyRate: status.nightlyRate || "",
+                    hotelWebsite: status.hotelWebsite || "",
+                    checkInTime: status.checkInTime || "",
+
+                    horadudepar: status.horadudepar || "",
+                    datedepar: status.datedepar || "",
+                    duracionviaje: status.duracionviaje || "",
+                    estrellas: status.estrellas || "",
+                    transporte: status.transporte || "",
+                    destinacionvoyage1: status.destinacionvoyage1 || "",
+                    destinacionvoyage2: status.destinacionvoyage2 || "",
+                    voyage1hotel1: status.voyage1hotel1 || "",
+                    voyage1hotel2: status.voyage1hotel2 || "",
+                    voyage1nombrehotel1: status.voyage1nombrehotel1 || "",
+                    voyage1nombrehotel2: status.voyage1nombrehotel2 || "",
+                    fecharegreso: status.fecharegreso || "",
+                    serviciosdelhotel: status.serviciosdelhotel || "",
+                    cancelarreserva: status.cancelarreserva || "",
+
+
+
                 },
             });
             setImages(status.images || []);
@@ -436,100 +447,38 @@ const StatusModal = () => {
 
 
     const marcastelefonos = () => (
-        <div>
-            <div className="form-group">
-                <small className="text-primary">Selecciona la marca</small>
-                <select
-                    className="form-control"
-                    name="marcas"
-                    value={postData.marcas}
-                    onChange={handleMarcasChange}
-                >
-                    <option value="">Sélectionnez une marque</option>
-                    {marcasOptionss}
-                </select>
-            </div>
-
-            <div className="form-group">
-
-                <select
-                    className="form-control"
-                    name="modelos"
-                    value={postData.modelos}
-                    onChange={handleModelosChange}
-                >
-                    <option value="">Sélectionnez le modèle</option>
-                    {modelosOptionss}
-                </select>
-            </div></div>
+        <MarcaTelefono
+            postData={postData}
+            handleMarcasChange={handleMarcasChange}
+            handleModelosChange={handleModelosChange}
+            marcasOptionss={marcasOptionss}
+            modelosOptionss={modelosOptionss}
+        />
     )
 
     const marcasvoitures = () => (
-        <div>
-            <div className="form-group">
-                <small className="text-primary">Selecciona la marca</small>
-                <select
-                    className="form-control"
-                    name="marca"
-                    value={postData.marca}
-                    onChange={handleMarcaChange}
-                >
-                    <option value="">Sélectionnez une marque</option>
-                    {marcasOptions}
-                </select>
-            </div>
-
-            <div className="form-group">
-                <small className="text-primary">Selecciona el modelo</small>
-                <select
-                    className="form-control"
-                    name="modelo"
-                    value={postData.modelo}
-                    onChange={handleModeloChange}
-                >
-                    <option value="">Sélectionnez le modèle</option>
-                    {modelosOptions}
-                </select>
-            </div>
-        </div>
-
-
+        <MarcaVoiture
+            postData={postData}
+            handleMarcaChange={handleMarcaChange}
+            handleModeloChange={handleModeloChange}
+            marcasOptions={marcasOptions}
+            modelosOptions={modelosOptions}
+        />
     )
 
 
     const wilayascommunes = () => (
+        <WilayaCommune
+            postData={postData}
+            handleWilayaChange={handleWilayaChange}
+            handleCommuneChange={handleCommuneChange}
+            wilayasOptions={wilayasOptions}
+            communesOptions={communesOptions}
+        />
+    )
+    const categoryselectt = () => (
         <div>
-            <div className="form-group">
-                <small className="text-primary">Adresse du bien obligatoire</small>
-                <select
-                    className="form-control"
-                    name="wilaya"
-                    value={postData.wilaya}
-                    onChange={handleWilayaChange}
-                >
-                    <options value="">Sélectionnez une wilaya</options>    {wilayasOptions}
-                </select>
-            </div>
-
-            <div className="form-group">
-
-                <select
-                    className="form-control"
-                    name="commune"
-                    value={postData.commune}
-                    onChange={handleCommuneChange}
-                >
-                    <option value="">Sélectionnez le modèle</option>
-                    {communesOptions}
-                </select>
-            </div>
-        </div>
-
-
-    ) 
-    const  categoryselectt  = () => (
-        <div>
-            < CategorySelect  handleChangeInput={handleChangeInput} postData={postData} />
+            < CategorySelect handleChangeInput={handleChangeInput} postData={postData} />
 
         </div>
     )
@@ -541,7 +490,7 @@ const StatusModal = () => {
         </div>
     )
 
- 
+
 
     const itemsAutomobileVehicules = () => (
         <div>
@@ -549,14 +498,23 @@ const StatusModal = () => {
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
-    
-    const ItemsImmobilierr = () => (
+
+    const ItemsImmobilierrr = () => (
         <div>
-            <ItemsImmobilierr handleChangeInput={handleChangeInput} postData={postData} />
+            <ItemsImmobilier handleChangeInput={handleChangeInput} postData={postData} />
 
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
+
+    const ItemsLocationVacancee = () => (
+        <div>
+            <ItemsLocationVacance handleChangeInput={handleChangeInput} postData={postData} />
+
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
+
     const itemsInformatique = () => (
         <div>
             <ItemsInformatique handleChangeInput={handleChangeInput} postData={postData} />
@@ -633,40 +591,37 @@ const StatusModal = () => {
             <small className='text-danger'>Ce champ est requis</small>
         </div>
     )
-
+    const ItemsVoyage = () => (
+        <div>
+            <Voyage handleChangeInput={handleChangeInput} postData={postData} />
+            <small className='text-danger'>Ce champ est requis</small>
+        </div>
+    )
 
 
 
 
     const title2 = () => (
-        <div className='form-group'>
-            <input type="text" name="title2" value={postData.attributes.title2} onChange={handleChangeInput} className="form-control" placeholder="Titre" />
-        </div>
+        <Title2Input postData={postData} handleChangeInput={handleChangeInput} />
     )
     const marque = () => (
-        <div className='form-group'>
-            <input type="text" name="marque" value={postData.attributes.marque} onChange={handleChangeInput} className="form-control" placeholder="Marque" />
-        </div>
+        <MarqueInput postData={postData} handleChangeInput={handleChangeInput} />
     )
     const model = () => (
-        <div className='form-group'>
-            <input type="text" name="model" value={postData.attributes.model} onChange={handleChangeInput} className="form-control" placeholder="Model" />
-        </div>
+        <ModelInput postData={postData} handleChangeInput={handleChangeInput} />
     )
     const superficie = () => (
-        <div className='form-group'>
-            <input type="text" name="superficie" value={postData.attributes.superficie} onChange={handleChangeInput} className="form-control" placeholder="Model" />
-        </div>
+        <SuperficieInput postData={postData} handleChangeInput={handleChangeInput} />
+
     )
     const etage = () => (
-        <div className='form-group'>
-            <input type="text" name="etage" value={postData.attributes.etage} onChange={handleChangeInput} className="form-control" placeholder="Model" />
-        </div>
+
+        <EtageInput postData={postData} handleChangeInput={handleChangeInput} />
+
     )
     const piece = () => (
-        <div className='form-group'>
-            <input type="text" name="piece" value={postData.attributes.piece} onChange={handleChangeInput} className="form-control" placeholder="piece" />
-        </div>
+
+        <PieceInput postData={postData} handleChangeInput={handleChangeInput} />
     )
 
     const annee = () => (
@@ -687,61 +642,116 @@ const StatusModal = () => {
         <Optionduvoiture postData={postData} setPostData={setPostData} />
     )
     const locationventevetementsss = () => (
-        <Form.Group className="mb-3">
-            <Form.Label>Location / Vente</Form.Label>
-            <Select
-                name="locatioventevetemenes"
-                value={locatioventevetemeness.find(opt => opt.value === postData.attributes.locatioventevetemenes)}
-                onChange={(selected) => handleChangeInput({
-                    target: {
-                        name: "locatioventevetemenes",
-                        value: selected.value
-                    }
-                })}
-                options={locatioventevetemeness}
-                placeholder="Location / vente"
-                classNamePrefix="select"
-            />
-        </Form.Group>
+        <LocationVenteVetements
+            postData={postData}
+            handleChangeInput={handleChangeInput}
+            locatioventevetemeness={locatioventevetemeness}
+        />
+
+
     )
     const grosdetails = () => (
-        <Form.Group className="mb-3">
-            <Form.Label>Gros / Détails</Form.Label>
-            <Select
-                name="grosdetailOptions"
-                value={grosdetailOptions.find(opt => opt.value === postData.attributes.grosdetailOptions)}
-                onChange={(selected) => handleChangeInput({
-                    target: {
-                        name: "grosdetailOptions",
-                        value: selected.value
-                    }
-                })}
-                options={grosdetailOptions}
-                placeholder="Gros / Détails"
-                classNamePrefix="select"
-            />
-        </Form.Group>
+
+        <GrosDetails
+            postData={postData}
+            handleChangeInput={handleChangeInput}
+            grosdetailOptions={grosdetailOptions}
+        />
+
+
     )
     const papierss = () => (
 
-        <Form.Group className="mb-3">
-            <Form.Label>Papiers</Form.Label>
-            <Select
-                name="papiers"
-                value={papiersOption.find(opt => opt.value === postData.attributes.papiersOption)}
-                onChange={(selected) => handleChangeInput({
-                    target: {
-                        name: "papiers",
-                        value: selected.value
-                    }
-                })}
-                options={papiersOption}
-                placeholder="Papiers"
-                classNamePrefix="select"
-            />
-        </Form.Group>
+        <PapiersSelect
+            postData={postData}
+            handleChangeInput={handleChangeInput}
+            papiersOption={papiersOption}
+        />
 
     )
+
+
+
+
+    const destinacionhadjomraa = () => (
+        <DestinacionHadjOmra value={postData.destinacionhadjomra} onChange={handleChangeInput} />
+    )
+
+    const transport = () => (
+        <TransporteUtilizado value={postData.transporte} onChange={handleChangeInput} />
+    )
+    const viajesnacionaless = () => (
+        <ViajesNacionales value={postData.viajesnacionales} onChange={handleChangeInput} />
+    )
+    const viajesInternacionaless = () => (
+        <ViajesInterNacionales value={postData.viajesinternacionales} onChange={handleChangeInput} />
+    )
+    const opcionesservicehotel = () => (
+        <Optionservicehotel postData={postData} setPostData={setPostData} />
+    )
+    const opcioneshabitacioness = () => (
+        <Opciontipodehabitaciones postData={postData} setPostData={setPostData} />
+    )
+    const opcioneslanguagehotell = () => (
+        <Opcionlagagehotel postData={postData} setPostData={setPostData} />
+    )
+
+
+
+
+
+
+    const incluidosenelprecio = () => (
+        <div className="form-group">
+        </div>
+    )
+    const condicionesdeanulacion = () => (
+        <div className="form-group">
+        </div>
+    )
+
+    const contactodereservacion = () => (
+        <div className="form-group">
+        </div>
+
+    )
+    const programmee = () => (
+        <Programme postData={postData} handleChangeInput={handleChangeInput} />
+    )
+    const descriptions = () => (
+        < Description postData={postData} handleChangeInput={handleChangeInput} />
+    )
+    const price = () => (
+        <PrixInput postData={postData} handleChangeInput={handleChangeInput} />
+    )
+    const unityprice = () => (<UnitePrixSelect postData={postData} handleChangeInput={handleChangeInput} priceUnitOptions={priceUnitOptions} />
+    )
+
+    const ofre = () => (
+        <TypeOffreSelect postData={postData} handleChangeInput={handleChangeInput} offerTypeOptions={offerTypeOptions} />
+    )
+
+    const change = () => (<ChangeSelect postData={postData} handleChangeInput={handleChangeInput} changeTypeOptions={changeTypeOptions} />
+    )
+    const quartier = () => (
+        <QuartierInput postData={postData} handleChangeInput={handleChangeInput} />
+
+    )
+
+    const telefono = () => (
+
+        <TelephoneInput postData={postData} handleChangeInput={handleChangeInput} />
+
+    )
+
+    const email = () => (
+
+        <EmailInput postData={postData} handleChangeInput={handleChangeInput} />
+    )
+
+
+
+
 
     return (
         <div className='status_modal'>
@@ -754,15 +764,15 @@ const StatusModal = () => {
                         &times;
                     </span>
                 </div>
-               
-                  
-                        <div className="form-group">
-                        {categoryselectt()}
-                        </div>
-                      
 
- 
-             
+
+                <div className="form-group">
+                    {categoryselectt()}
+                </div>
+
+
+
+
                 <div className="form-group"   >
                     <input
                         className='form-control'
@@ -772,7 +782,7 @@ const StatusModal = () => {
                         onChange={handleChangeInput}
                         placeholder="Category" />
                 </div>
-              
+
 
                 {postData.subCategory === "Électroménager & Électronique" && (
                     <div className='form-group'>
@@ -785,7 +795,31 @@ const StatusModal = () => {
                     </div>
                 )}
 
+                {postData.subCategory === "Immobilier" && (
+                    <div>
+                        <SubcategorySelectWithIconss />
 
+                        {(postData.subCategory3 === "Vente" || postData.subCategory3 === "Location" || postData.subCategory3 === "Echange" || postData.subCategory3 === "Cherche_Location" || postData.subCategory3 === "Cherche_Achat") && (
+                            <>
+
+                                <ItemsImmobilierrr />
+                            </>
+                        )}
+
+                        {postData.subCategory3 === "Location_Vacances" && (
+                            <div>
+                                <ItemsLocationVacancee />
+
+
+
+
+
+                            </div>
+
+                        )}
+
+                    </div>
+                )}
 
                 {postData.subCategory === "Automobiles & Véhicules" && (
                     <div>
@@ -797,6 +831,7 @@ const StatusModal = () => {
                             <>
                                 {postData.title === "Voitures" ? (
                                     <>
+
                                         {marcasvoitures()}
                                         {annee()}
                                         {motorr()}
@@ -815,33 +850,6 @@ const StatusModal = () => {
                                 )}
                             </>
                         )}
-
-                    </div>
-                )}
-
-                {postData.subCategory === "Immobilier" && (
-                    <div>
-                        <div className="form-group">
-                            {subcategory3()}
-                        </div>
-
-                        
-                           
-                                {postData.subCategory2 === "Vente" ? (
-                                    <>
-                                    {ItemsImmobilier()}
-                                    </>
-                                ) : (
-                                    <>
-                                     
-                                       
-                                        
-
-
-                                    </>
-                                )}
-                           
-                     
 
                     </div>
                 )}
@@ -1009,159 +1017,71 @@ const StatusModal = () => {
                     </div>
                 )}
 
+                {postData.subCategory === "Voyage" && (
+                    <div className='form-group'>
+                        <div className="form-group">
+                            {ItemsVoyage()}
+                        </div>
+                        <>
+                            {destinacionhadjomraa()}
+                            {opcioneshabitacioness()}
+                            {opcioneslanguagehotell()}
+                            {opcioneslanguagehotell()}
+                            {transport()}
+                            {viajesnacionaless()}
+                            {viajesInternacionaless()}
+
+
+                            {programmee()}
+                        </>
+                    </div>
+                )}
 
 
 
 
+                {superficie()}
+
+
+                {etage()}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <Form.Group controlId="descriptionTextarea" className="mb-3">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        name="description"
-                        value={postData.description}
-                        onChange={handleChangeInput}
-                        placeholder="Description..."
-                        rows={5} // Puedes ajustar el número de filas
-                        style={{ resize: 'vertical' }} // Opcional: permite redimensionar verticalmente
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="numberInput" className="mb-3">
-                    <Form.Label>Prix</Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="price"
-                        value={postData.price}
-                        onChange={handleChangeInput}
-                        placeholder="Prix"
-                    />
-
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                    <Form.Label>Unité de prix</Form.Label>
-                    <Select
-                        name="unidaddeprecio"
-                        value={priceUnitOptions.find(opt => opt.value === postData.unidaddeprecio)}
-                        onChange={(selected) => handleChangeInput({
-                            target: {
-                                name: "unidaddeprecio",
-                                value: selected.value
-                            }
-                        })}
-                        options={priceUnitOptions}
-                        placeholder="Unité de prix"
-                        classNamePrefix="select"
-                    />
-                </Form.Group>
-
-                {/* Select de react-select para Type D'offre */}
-                <Form.Group className="mb-3">
-                    <Form.Label>Type D'offre</Form.Label>
-                    <Select
-                        name="oferta"
-                        value={offerTypeOptions.find(opt => opt.value === postData.oferta)}
-                        onChange={(selected) => handleChangeInput({
-                            target: {
-                                name: "oferta",
-                                value: selected.value
-                            }
-                        })}
-                        options={offerTypeOptions}
-                        placeholder="Type D'offre"
-                        classNamePrefix="select"
-                    />
-                </Form.Group>
-
-
-                <Form.Group className="mb-3">
-                    <Form.Label>Change</Form.Label>
-
-                    <Select
-                        name="change"
-                        value={changeTypeOptions.find(opt => opt.value === postData.change)}
-                        onChange={(selected) => handleChangeInput({
-                            target: {
-                                name: "change",
-                                value: selected.value
-                            }
-                        })}
-                        options={changeTypeOptions}
-                        placeholder="Change"
-                        classNamePrefix="select"
-                    />
-
-                </Form.Group>
-
-
+                {piece()}
 
 
 
 
                 <div>
-                    {wilayascommunes()}
+                    {descriptions()}
                 </div>
 
 
+                <div>
+                    {wilayascommunes()}
+                </div>
+                <div>
+                    {price()}
+                </div>
+                <div>
+                    {unityprice()}
+                </div>
 
-                <Form.Group controlId="numberInput" className="mb-3">
-                    <Form.Label>Quartier</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="quartier"
-                        value={postData.quartier}
-                        onChange={handleChangeInput}
-                        placeholder="Quartier"
-                    />
-
-                </Form.Group>
-
-
-
-
-                <Form.Group controlId="telefonoInput" className="mb-3">
-                    <Form.Label>Téléphone</Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="telefono"
-                        value={postData.telefono}
-                        onChange={handleChangeInput}
-                        placeholder="Téléphone"
-                    />
-                </Form.Group>
-
-
-                <Form.Group controlId="emailInput" className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type="email"
-                        name="email"
-                        value={postData.email}
-                        onChange={handleChangeInput}
-                        placeholder="Adresse mail"
-                    />
-
-                </Form.Group>
-
-
+                <div>
+                    {ofre()}
+                </div>
+                <div>
+                    {change()}
+                </div>
+                <div>
+                    {quartier()}
+                </div>
+                <div>
+                    {telefono()}
+                </div>
+                <div>
+                    {email()}
+                </div>
                 <div className="status_body">
 
                     <div className="show_images">
