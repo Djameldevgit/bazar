@@ -1,44 +1,93 @@
 const mongoose = require('mongoose')
 
 const postSchema = new mongoose.Schema({
-  subCategory: {
+  category: {
     type: String,
     required: true
   }, 
-
-  title: {
-    type: String,
-  
-  },
-
-  
-  description: {
+/*
+  subCategoryArtsNumeriques: {
     type: String,
   },
 
+subCategoryArtTextile: {
+    type: String,
+  },
+
+  subCategoryCollages: {
+    type: String,
+  },
+
+  subCategoryDesign: {
+    type: String,
+  },
+
+  subCategoryDessin: {
+    type: String,
+  },
+
+ 
+
+  subCategoryGravures: {
+    type: String,
+
+  },
+   subCategoryPeinture: {
+    type: String,
+
+  },
+  subCategoryPhotographie: {
+    type: String,
+
+  },
+*/ envolverobra: {
+    type: String,
+
+  },
+  subcategory: {
+    type: String,
+
+  },
+
+  measurementValue: {
+    type: String,
+
+  },
+  venteOption: {
+    type: String,
+
+  },
+  
   price: {
     type: String,
-  },
 
-  unidaddeprecio: {
-    type: String,
   },
-
-  oferta: {
-    type: String,
-  },
-
-  change: {
+  subCategorySculpture: {
     type: String,
 
   },
+  artStyle: {
+    type: String,
 
-  quartier: {
+  },
+  subCategorytalle: {
+    type: String,
+
+  },
+  theme: {
+    type: String,
+
+  },
+  measurementUnit: {
+    type: String,
+
+  },
+  description: {
     type: String,
 
   },
 
-  wilaya: {
+ wilaya: {
     type: String,
 
   },
@@ -46,36 +95,7 @@ const postSchema = new mongoose.Schema({
     type: String,
 
   },
- marca: {
-    type: String,
 
-  },
-  modelo: {
-    type: String,
-
-  },
-  wilaya: {
-    type: String,
-
-  },
-  marcas: {
-    type: String,
-
-  },
-  modelos: {
-    type: String,
-
-  },
-  telefono: {
-    type: String,
-
-  },
-  
-
-  attributes: {
-    type: Object, // Cambiar Map por Object
-    default: {}   // Establecer un valor predeterminado
-  },
   estado: {
     type: String,
     enum: ['pendiente', 'aprobado', 'rechazado'],

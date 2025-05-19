@@ -11,24 +11,18 @@ const CardBodyTitle = ({ post }) => {
                 {!isDetailPage && (
                     <div>
                         <div className="title-post">
-                            <div className="title0">{post.title}</div>
+                            <div className="title0">{post.category}</div>
                             
-                            {(post.title === "Appartement" || post.title === "Villa" || post.title === "Niveau de villa" || post.title === "Local") && (
-                                <div className="title3"> F{post.attributes.piece}</div>
-                            )}
-                            {(post.title === "Terrain" || post.title === "Terrain Agricole" || post.title === "Usine") && (
-                                <div className="title3">   {post.attributes.superficie} M²</div>
-                            )}
-
-                            {(post.subCategory === "Location_Vacances") && (
+                           
+                      
                                 <div className="title3">     </div>
-                            )}
+                           
                         </div>
 
                         <div className="titlelocation">
-                            {(post.title === "Immeuble") && (
-                                <div className="title3">{post.attributes.numerodeapartamientos} Appartements,   {post.attributes.superficie} M²</div>
-                            )}
+                          
+                                <div className="title3">{post.subcategory}    </div>
+                          
                         </div>
                     </div>
                 )}

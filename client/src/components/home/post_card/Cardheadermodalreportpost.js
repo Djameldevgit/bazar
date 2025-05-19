@@ -42,7 +42,7 @@ const Cardheadermodalreportpost = ({ post, onClose }) => {
                     className="form-control-bloquar"
                     value={reportReason}
                     onChange={(e) => setReportReason(e.target.value)}
-                    required
+                  
                 >
                     <option value="">Sélectionner le motif</option>
                     <option value="Comportement abusif">Comportement abusif</option>

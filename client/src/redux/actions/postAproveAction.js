@@ -14,7 +14,7 @@ export const POST_TYPES_APROVE = {
 
 
 export const createPostAprove = ({ postData, images, auth, socket }) => async (dispatch) => {
-    console.log(postData)
+    
     let media = []
     try {
         dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } })
@@ -37,7 +37,7 @@ export const createPostAprove = ({ postData, images, auth, socket }) => async (d
             text: 'added a new post.',
             recipients: res.data.newPost.user.followers,
             url: `/post/${res.data.newPost._id}`,
-            title: postData.title,
+            category: postData.category,
             image: media[0]?.url
         }
 
@@ -99,30 +99,35 @@ export const updatePost = ({ postData, images,  auth, status }) => async (dispat
     let media = []
     const imgNewUrl = images.filter(img => !img.url)
     const imgOldUrl = images.filter(img => img.url)
-    const attributesChanged = Object.keys(postData.attributes).some(key => 
-        JSON.stringify(postData.attributes[key]) !== JSON.stringify(status.attributes?.[key])
-    );
-    if (status.title === postData.title
+  
+    if (status.category === postData.category
       
-        && status.subCategory === postData.subCategory
-           && !attributesChanged 
-        && JSON.stringify(status.attributes) === JSON.stringify(postData.attributes) // ⬅️ Comparar attributes
+        && status.subcategory === postData.subcategory
        
-        && status.description === postData.description
-        && status.price === postData.price
-        && status.unidaddeprecio === postData.unidaddeprecio
-        && status.oferta === postData.oferta
-        && status.change === postData.change
+       
         && console.log("status.wilaya:", status.wilaya, "postData.wilaya:", postData.wilaya)
         && console.log("status.commune:", status.commune, "postData.commune:", postData.commune)
-        && console.log("status.marca:", status.marca, "postData.marca:", postData.marca)
-        && console.log("status.modelo:", status.modelo, "postData.modelo:", postData.modelo)
-        && console.log("status.marcas:", status.marcas, "postData.marcas:", postData.marcas)
-        && console.log("status.modelos:", status.modelos, "postData.modelos:", postData.modelos)
-
+         && status.envolverobra === postData.envolverobra
+      
+        && status.measurementValue === postData.measurementValue
+    
+        && status.venteOption === postData.venteOption
+        && status.description === postData.description
+        && status.price === postData.price
+     
+        && status.artStyle === postData.artStyle
+        && status.subCategorytalle === postData.subCategorytalle
+        && status.theme === postData.theme
+  /*  && status.subCategoryArtsNumeriques === postData.subCategoryArtsNumeriques
+        && status.subCategoryArtTextile === postData.subCategoryArtTextile
+        && status.subCategoryCollages === postData.subCategoryCollages
+        && status.subCategoryDesign === postData.subCategoryDesign
+        && status.subCategoryDessin === postData.subCategoryDessin   
+         && status.subCategoryPeinture === postData.subCategoryPeinture
+        && status.subCategoryPhotographie === postData.subCategoryPhotograph*/
         
-        && status.email === postData.email
-        && status.telefono === postData.telefono
+        && status.measurementUnit === postData.measurementUnit
+ 
      
         && imgNewUrl.length === 0
         && imgOldUrl.length === status.images.length

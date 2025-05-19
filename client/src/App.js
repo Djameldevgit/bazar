@@ -26,6 +26,7 @@ import CallModal from './components/message/CallModal'
  
 import { getPostsPendientes } from './redux/actions/postAproveAction'
 import Postspendientes from './pages/postspendientes'
+import Drawerr from './pages/drawerr'
  
 function App() {
   const { auth, status, modal, call } = useSelector(state => state)
@@ -47,6 +48,7 @@ function App() {
       dispatch(getNotifies(auth.token))
     }
   }, [dispatch, auth.token])
+ //<Route exact path="/drawer" component={Drawerr} />
 
   
   useEffect(() => {
@@ -72,12 +74,13 @@ function App() {
       <div className={`App ${(status || modal) && 'mode'}`}>
         <div className="main">
           {auth.token && <Header />}
-          {status && <StatusModal />}
+       {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}
           
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
+         
          
           <PrivateRouter exact path="/:page" component={PageRender} />
           <PrivateRouter exact path="/:page/:id" component={PageRender} />

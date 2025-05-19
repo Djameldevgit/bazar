@@ -14,7 +14,7 @@ const Header = () => {
                       <h1 className="navbar-brand text-uppercase p-0 mt-2 ml-5" onClick={() => window.scrollTo({ top: 0 })}>
                      Bazar
                     </h1>
-                     <img src='djamel' className='imagelogo' alt="Logo" />
+                     <img src='logo512' className='imagelogo' alt="djamel art" />
                  
                 </Link>
 

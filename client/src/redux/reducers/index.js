@@ -14,7 +14,6 @@ import notify from './notifyReducer'
 import message from './messageReducer'
 import online from './onlineReducer'
 import call from './callReducer'
-import peer from './peerReducer'
  
 import homePostsAprove from './posAprovetReducer'
 import cart from './cartReducer'
@@ -37,6 +36,6 @@ export default combineReducers({
     message,
     online,
     call,
-    peer,homePostsAprove ,cart
+   homePostsAprove ,cart
 
 })

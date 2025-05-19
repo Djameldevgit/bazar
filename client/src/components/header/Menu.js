@@ -92,7 +92,7 @@ const Menu = () => {
                             <div className="dropdown-item" onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
                                 Ajouter un annnoces
                             </div>   <Link className="dropdown-item" to='/cart'>cart</Link>
-                        
+                            <Link className="dropdown-item" to='/drawerr'>Info aplicacion</Link>
 
                             <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
                             <Link className="dropdown-item" to='/message'>Chat </Link>
